@@ -11,7 +11,7 @@ import {
 import { DndContext, KeyboardSensor, PointerSensor, closestCenter, useSensor, useSensors, type DragEndEvent } from "@dnd-kit/core";
 import { SortableContext, arrayMove, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { alternatives, days, practicalInfo, restaurants, stopById, stops, trip } from "@/src/data/trip";
+import { alternatives, budget, days, foodSafety, groupAdvice, practicalInfo, restaurants, stopById, stops, trip } from "@/src/data/trip";
 import { clearState, createDefaultState, loadState, saveState } from "@/src/services/storage";
 import type { Day, PlaceStatus, Stop, UserState } from "@/src/types/trip";
 import { calculateSchedule } from "@/src/utils/schedule";
@@ -90,11 +90,14 @@ function SortableStopCard({
         </div>
         <p className="eyebrow">{item.stop.type} · {item.stop.town}</p>
         <h3>{item.stop.name}</h3>
+        {item.stop.badge && <span className="editorial-badge">{item.stop.badge}</span>}
         <p>{item.stop.description}</p>
+        {item.stop.details?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
         {item.stop.warning && <div className="warning"><Wind size={16} /><span>{item.stop.warning}</span></div>}
         <div className="stop-meta">
           <span><Clock3 size={15} /> {item.stop.estimatedVisitMinutes} min</span>
           <span>{item.arrival}–{item.end}</span>
+          {item.stop.entryPrice && <span>{item.stop.entryPrice}</span>}
           {index < total - 1 && <span><Car size={15} /> {item.stop.travelMinutesFromPrevious} min aprox.</span>}
         </div>
         <div className="action-row">
@@ -237,13 +240,13 @@ function Summary({ openDay, navigate, progress }: { openDay: (id: string) => voi
         <PlaceholderArt tone="wine" label="Paisaje de Fenouillèdes" large />
         <div className="hero-copy">
           <p className="eyebrow light">Tu escapada de 4 días</p>
-          <h1>{trip.subtitle}</h1>
+          <h1>{trip.title}<br />{trip.subtitle}</h1>
           <p>{trip.description}</p>
-          <div className="hero-base"><MapPin size={18} /><span>Base en <strong>{trip.base}</strong></span></div>
+          <div className="hero-base"><MapPin size={18} /><span>Base en <strong>{trip.base}</strong> · 9 personas</span></div>
         </div>
       </section>
 
-      <div className="section-heading"><div><p className="eyebrow">Tu ruta</p><h2>Cuatro días, cuatro paisajes</h2></div><span>Contenido demo</span></div>
+      <div className="section-heading"><div><p className="eyebrow">Tu ruta</p><h2>Cuatro días, sin apretar el paso</h2></div><span>Guía definitiva</span></div>
       <section className="day-grid">
         {days.map((day) => {
           const done = progress(day);
@@ -253,7 +256,7 @@ function Summary({ openDay, navigate, progress }: { openDay: (id: string) => voi
               <div className="day-card-body">
                 <div className="day-card-top"><span className="day-number">Día {day.number}</span><WeatherPill day={day} /></div>
                 <p className="eyebrow">{day.subtitle}</p><h3>{day.title}</h3>
-                <div className="mini-metrics"><span><Route size={16} /> {day.distanceKm} km</span><span><Car size={16} /> {Math.floor(day.drivingMinutes / 60)} h {day.drivingMinutes % 60} min</span><span><Backpack size={16} /> {Math.floor(day.walkingMinutes / 60)} h {day.walkingMinutes % 60} min</span></div>
+                <div className="mini-metrics"><span><Route size={16} /> {day.distanceKm} km</span><span><Car size={16} /> {Math.floor(day.drivingMinutes / 60)} h {day.drivingMinutes % 60} min</span><span><Backpack size={16} /> {Math.floor(day.walkingMinutes / 60)} h {day.walkingMinutes % 60} min</span><span>Entradas {day.entryCost}</span></div>
                 <div className="progress-copy"><span>{done.visited} de {done.total} visitadas</span><strong>{done.percent}%</strong></div>
                 <div className="progress-track"><span style={{ width: `${done.percent}%` }} /></div>
                 <span className="card-link">Ver itinerario <ArrowRight size={18} /></span>
@@ -332,7 +335,7 @@ function DayDetail({ day, state, setState, statusFor, onBack, sensors }: { day: 
         <div><span className="departure-icon"><Clock3 /></span><div><p className="eyebrow">Organiza el día</p><h2>¿A qué hora salimos?</h2><p>Recalculamos las horas con 15 minutos de margen entre paradas.</p></div></div>
         <label>Hora de salida<input type="time" value={state.departureTimes[day.id] ?? "09:00"} onChange={(event) => setState((current) => ({ ...current, departureTimes: { ...current.departureTimes, [day.id]: event.target.value } }))} /></label>
       </section>
-      <div className="itinerary-heading"><div><p className="eyebrow">Itinerario personalizado</p><h2>{activeStops.length} paradas · regreso aprox. {schedule.returnTime}</h2><span>Horarios calculados con tiempos de demostración</span></div><button className="secondary-button" onClick={resetRoute}><RotateCcw size={16} /> Restaurar ruta</button></div>
+      <div className="itinerary-heading"><div><p className="eyebrow">Itinerario personalizado</p><h2>{activeStops.length} paradas · regreso aprox. {schedule.returnTime}</h2><span>Horario orientativo basado en la guía, con 15 minutos de margen</span></div><button className="secondary-button" onClick={resetRoute}><RotateCcw size={16} /> Restaurar ruta</button></div>
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
         <SortableContext items={activeIds} strategy={verticalListSortingStrategy}>
           <section className="timeline">
@@ -352,13 +355,14 @@ function DayDetail({ day, state, setState, statusFor, onBack, sensors }: { day: 
       </DndContext>
       {skipped.length > 0 && <section className="removed-block"><h2>Omitidas por ahora</h2>{skipped.map((stop) => <div key={stop.id}><div><strong>{stop.name}</strong><span>No se incluye en el horario ni en la ruta activa</span></div><button onClick={() => setState((current) => ({ ...current, skippedStopIds: current.skippedStopIds.filter((id) => id !== stop.id) }))}><RotateCcw size={16} /> Volver a incluir</button></div>)}</section>}
       {removed.length > 0 && <section className="removed-block"><h2>Paradas eliminadas</h2>{removed.map((stop) => <div key={stop.id}><div><strong>{stop.name}</strong><span>{stop.town}</span></div><button onClick={() => restoreAtOriginalPosition(stop)}><RotateCcw size={16} /> Restaurar</button></div>)}</section>}
+      <section className="short-version"><p className="eyebrow">Versión corta</p><h2>El día sigue mereciendo la pena</h2><p>{day.shortVersion}</p></section>
     </div>
   );
 }
 
 function MapScreen({ state, mapDays, setMapDays, routeVisible, setRouteVisible, openDay }: { state: UserState; mapDays: string[]; setMapDays: (days: string[]) => void; routeVisible: boolean; setRouteVisible: (value: boolean) => void; openDay: (dayId: string) => void }) {
   const visibleStops = stops.filter((stop) => mapDays.includes(stop.dayId) && !state.removedStopIds.includes(stop.id));
-  return <div className="page"><div className="page-title"><p className="eyebrow">Explora la ruta</p><h1>Mapa del viaje</h1><p>Todas las paradas de la versión de demostración, agrupadas por día.</p></div>
+  return <div className="page"><div className="page-title"><p className="eyebrow">Explora la ruta</p><h1>Mapa del viaje</h1><p>Todas las paradas de la guía, agrupadas por día.</p></div>
     <div className="map-toolbar"><div className="filter-scroll">{days.map((day) => <button key={day.id} className={mapDays.includes(day.id) ? "active" : ""} onClick={() => setMapDays(toggleId(mapDays, day.id))}><span>{day.number}</span>Día {day.number}</button>)}</div><button className={`route-toggle ${routeVisible ? "active" : ""}`} onClick={() => setRouteVisible(!routeVisible)}><Route size={17} /> Ruta {routeVisible ? "visible" : "oculta"}</button></div>
     <div className="map-wrap"><MapView stops={visibleStops} onOpenDay={openDay} />{!routeVisible ? null : <div className="route-notice"><Info size={15} /> La ruta OSRM se activará con las coordenadas definitivas.</div>}</div>
     <div className="map-legend">{days.map((day) => <span key={day.id}><i className={`legend-dot tone-${day.tone}`} />Día {day.number}</span>)}</div>
@@ -368,9 +372,9 @@ function MapScreen({ state, mapDays, setMapDays, routeVisible, setRouteVisible, 
 function RestaurantsScreen({ state, updateList, favoriteOnly, setFavoriteOnly, restaurantDay, setRestaurantDay }: { state: UserState; updateList: (key: "visitedStopIds" | "skippedStopIds" | "favoriteRestaurantIds" | "discardedRestaurantIds", id: string) => void; favoriteOnly: boolean; setFavoriteOnly: (value: boolean) => void; restaurantDay: string; setRestaurantDay: (value: string) => void }) {
   const visible = restaurants.filter((restaurant) => !state.discardedRestaurantIds.includes(restaurant.id) && (!favoriteOnly || state.favoriteRestaurantIds.includes(restaurant.id)) && (restaurantDay === "all" || restaurant.dayIds.includes(restaurantDay)));
   const discarded = restaurants.filter((restaurant) => state.discardedRestaurantIds.includes(restaurant.id));
-  return <div className="page"><div className="page-title"><p className="eyebrow">Para sentarse a la mesa</p><h1>Restaurantes</h1><p>Selección ficticia para probar favoritos, filtros y descartes.</p></div>
+  return <div className="page"><div className="page-title"><p className="eyebrow">Para sentarse a la mesa</p><h1>Restaurantes</h1><p>Las treinta fichas de la guía: comidas, cenas, caprichos y compras para llevar a casa.</p></div>
     <div className="filters"><button className={favoriteOnly ? "active" : ""} onClick={() => setFavoriteOnly(!favoriteOnly)}><Heart size={17} /> Solo favoritos</button><select value={restaurantDay} onChange={(event) => setRestaurantDay(event.target.value)} aria-label="Filtrar restaurantes por día"><option value="all">Todos los días</option>{days.map((day) => <option key={day.id} value={day.id}>Día {day.number}</option>)}</select></div>
-    <section className="restaurant-grid">{visible.map((restaurant) => <article className="restaurant-card" key={restaurant.id}><div className="restaurant-top"><div className="restaurant-icon"><Utensils /></div><button className={`heart-button ${state.favoriteRestaurantIds.includes(restaurant.id) ? "active" : ""}`} onClick={() => updateList("favoriteRestaurantIds", restaurant.id)} aria-label="Alternar favorito"><Heart size={21} fill={state.favoriteRestaurantIds.includes(restaurant.id) ? "currentColor" : "none"} /></button></div><p className="eyebrow">{restaurant.town} · {restaurant.mealType}</p><h2>{restaurant.name}</h2><div className="rating"><Star size={17} fill="currentColor" /><strong>{restaurant.rating}</strong><span>{restaurant.reviewCount} opiniones</span></div><p>{restaurant.description}</p><div className="schedule"><Clock3 size={16} />{restaurant.schedule}</div><div className="action-row">{restaurant.phone && <a className="chip-button" href={`tel:${restaurant.phone}`}><Phone size={16} /> Llamar</a>}<a className="chip-button" href={restaurant.googleMapsUrl} target="_blank" rel="noreferrer"><Navigation size={16} /> Mapa</a><button className="icon-button" onClick={() => updateList("discardedRestaurantIds", restaurant.id)} aria-label="Descartar restaurante"><X size={17} /></button></div></article>)}</section>
+    <section className="restaurant-grid">{visible.map((restaurant) => <article className="restaurant-card" key={restaurant.id}><div className="restaurant-top"><div className="restaurant-icon"><Utensils /></div><button className={`heart-button ${state.favoriteRestaurantIds.includes(restaurant.id) ? "active" : ""}`} onClick={() => updateList("favoriteRestaurantIds", restaurant.id)} aria-label="Alternar favorito"><Heart size={21} fill={state.favoriteRestaurantIds.includes(restaurant.id) ? "currentColor" : "none"} /></button></div><p className="eyebrow">{restaurant.town} · {restaurant.mealType}</p><h2>{restaurant.name}</h2><div className="rating"><Star size={17} fill="currentColor" /><strong>{restaurant.rating}</strong><span>{restaurant.reviewCount.toLocaleString("es-ES")} opiniones</span></div><p>{restaurant.description}</p><div className="restaurant-facts"><span>{restaurant.priceRange}</span><span>{restaurant.groupCapacity}</span></div>{restaurant.safetyNote && <div className="warning"><Info size={16} /><span><strong>Embarazo:</strong> {restaurant.safetyNote}</span></div>}<div className="schedule"><Clock3 size={16} />{restaurant.schedule}</div><div className="action-row">{restaurant.phone && <a className="chip-button" href={`tel:${restaurant.phone}`}><Phone size={16} /> Llamar</a>}<a className="chip-button" href={restaurant.googleMapsUrl} target="_blank" rel="noreferrer"><Navigation size={16} /> Mapa</a><button className="icon-button" onClick={() => updateList("discardedRestaurantIds", restaurant.id)} aria-label="Descartar restaurante"><X size={17} /></button></div></article>)}</section>
     {visible.length === 0 && <div className="empty-state"><Utensils /><h2>No hay restaurantes con estos filtros</h2><button onClick={() => { setFavoriteOnly(false); setRestaurantDay("all"); }}>Quitar filtros</button></div>}
     {discarded.length > 0 && <section className="removed-block"><h2>Restaurantes descartados</h2>{discarded.map((restaurant) => <div key={restaurant.id}><div><strong>{restaurant.name}</strong><span>{restaurant.town}</span></div><button onClick={() => updateList("discardedRestaurantIds", restaurant.id)}><RotateCcw size={16} /> Restaurar</button></div>)}</section>}
   </div>;
@@ -386,10 +390,13 @@ function MonumentsScreen({ updateList, statusFor, monumentDay, setMonumentDay }:
 function PracticalScreen({ setState }: { setState: React.Dispatch<React.SetStateAction<UserState>> }) {
   const iconFor = (icon: string) => icon === "wind" ? <Wind /> : icon === "car" ? <Car /> : icon === "backpack" ? <Backpack /> : icon === "sun" ? <Sun /> : <WifiOff />;
   const reset = () => { if (window.confirm("Se borrarán del dispositivo las visitas, notas, tareas, favoritos y preferencias.")) { clearState(); setState(createDefaultState()); } };
-  return <div className="page"><div className="page-title"><p className="eyebrow">Conviene saber</p><h1>Información práctica</h1><p>Consejos de muestra que después se sustituirán por el contenido del HTML.</p></div>
+  return <div className="page"><div className="page-title"><p className="eyebrow">Conviene saber</p><h1>Información práctica</h1><p>La guía completa para moverse, comer y decidir sobre la marcha cuando sois nueve.</p></div>
     <section className="weather-board"><div><p className="eyebrow light">Vista conjunta</p><h2>El tiempo, día a día</h2><span>Datos ficticios · no usar para planificar</span></div><div className="weather-days">{days.map((day) => <div key={day.id}><strong>D{day.number}</strong><CloudSun /><span>{day.weatherDemo.max}°</span><small>{day.weatherDemo.rain}%</small></div>)}</div></section>
     <div className="section-heading"><div><p className="eyebrow">En la mochila</p><h2>Antes de salir</h2></div></div><section className="practical-grid">{practicalInfo.map((item) => <article key={item.id}><span className="practical-icon">{iconFor(item.icon)}</span><div><p className="eyebrow">{item.category}{item.dayId ? ` · Día ${days.find((day) => day.id === item.dayId)?.number}` : ""}</p><h3>{item.title}</h3><p>{item.text}</p></div></article>)}</section>
+    <div className="section-heading"><div><p className="eyebrow">Nueve a la mesa</p><h2>Lo que cambia en grupo</h2></div></div><section className="practical-grid">{groupAdvice.map((item) => <article key={item.id}><span className="practical-icon"><Utensils /></span><div><p className="eyebrow">{item.kicker}</p><h3>{item.title}</h3><p>{item.text}</p></div></article>)}</section>
+    <div className="section-heading"><div><p className="eyebrow">A la mesa</p><h2>Comer catalán con una lista</h2></div></div><section className="food-safety"><p>{foodSafety.intro}</p><div><article><h3><Check size={19} /> Sin problema</h3><ul>{foodSafety.safe.map((item) => <li key={item}>{item}</li>)}</ul></article><article><h3><X size={19} /> Mejor no</h3><ul>{foodSafety.avoid.map((item) => <li key={item}>{item}</li>)}</ul></article></div><p className="food-phrases"><strong>Frases útiles:</strong> {foodSafety.phrases}</p></section>
+    <div className="section-heading"><div><p className="eyebrow">Temporada 2026</p><h2>Presupuesto orientativo</h2></div></div><div className="budget-wrap"><table className="budget-table"><thead><tr><th>Jornada</th><th>Entradas</th><th>Comida</th><th>Cena</th><th>Coche</th><th>Persona</th><th>Los nueve</th></tr></thead><tbody>{budget.map((row) => <tr key={row.label}><td>{row.label}</td><td>{row.entries}</td><td>{row.lunch}</td><td>{row.dinner}</td><td>{row.car}</td><td><strong>{row.person}</strong></td><td><strong>{row.group}</strong></td></tr>)}</tbody></table></div><p className="budget-note">Euros. Comida y cena: principal más entrante o postre, con agua o refresco y sin vino. Coche calculado con dos vehículos. No incluye alojamiento, desayunos, cafés, helados ni compras.</p>
     <div className="section-heading"><div><p className="eyebrow">Plan B</p><h2>Alternativas</h2></div></div><section className="alternative-grid">{alternatives.map((place) => <article key={place.id}><span>{place.reason}</span><h3>{place.name}</h3><p>{place.description}</p><small>{place.distance}</small><a href={place.googleMapsUrl} target="_blank" rel="noreferrer">Abrir en Maps <ExternalLink size={15} /></a></article>)}</section>
-    <section className="settings-card"><div><h2>Datos de este dispositivo</h2><p>Restablece todos los cambios locales y vuelve al itinerario de demostración original.</p></div><button className="danger-button" onClick={reset}><Trash2 size={17} /> Restablecer datos</button></section>
+    <section className="settings-card"><div><h2>Datos de este dispositivo</h2><p>Restablece todos los cambios locales y vuelve al itinerario original de la guía.</p></div><button className="danger-button" onClick={reset}><Trash2 size={17} /> Restablecer datos</button></section>
   </div>;
 }

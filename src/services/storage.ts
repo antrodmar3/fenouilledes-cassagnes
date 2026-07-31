@@ -27,7 +27,19 @@ export function loadState(): UserState {
     if (!raw) return createDefaultState();
     const parsed = JSON.parse(raw) as Partial<UserState>;
     if (parsed.schemaVersion !== 1) return createDefaultState();
-    return { ...createDefaultState(), ...parsed };
+    const defaults = createDefaultState();
+    const merged = { ...defaults, ...parsed } as UserState;
+    merged.stopOrder = Object.fromEntries(days.map((day) => {
+      const saved = parsed.stopOrder?.[day.id] ?? [];
+      const validSaved = saved.filter((id) => day.stopIds.includes(id));
+      const missing = day.stopIds.filter((id) => !validSaved.includes(id));
+      return [day.id, [...validSaved, ...missing]];
+    }));
+    const validStopIds = new Set(days.flatMap((day) => day.stopIds));
+    merged.visitedStopIds = merged.visitedStopIds.filter((id) => validStopIds.has(id));
+    merged.skippedStopIds = merged.skippedStopIds.filter((id) => validStopIds.has(id));
+    merged.removedStopIds = merged.removedStopIds.filter((id) => validStopIds.has(id));
+    return merged;
   } catch {
     return createDefaultState();
   }

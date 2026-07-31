@@ -2,7 +2,7 @@
 
 PWA mobile-first para consultar y personalizar un viaje de cuatro días por Fenouillèdes y el país cátaro, con base en Cassagnes.
 
-> Esta primera versión usa contenido ficticio claramente señalado. El HTML definitivo será la fuente de verdad cuando se incorpore.
+El contenido procede de `content/Fenouilledes-paso-lento-DEFINITIVO.html`, conservado como fuente de verdad. La interfaz no incrusta ese documento: días, paradas, restaurantes y consejos están estructurados en TypeScript.
 
 ## Stack
 
@@ -54,7 +54,7 @@ public/               Manifest, service worker e iconos
 - **Coordenadas:** actualiza `coordinates.latitude` y `coordinates.longitude` tras verificarlas; no uses centros genéricos si existe una ubicación exacta.
 - **Enlaces:** guarda el enlace original en `googleMapsUrl`.
 
-Los componentes no contienen el contenido editorial, de modo que la importación del HTML definitivo se limita principalmente a esta capa de datos.
+Los componentes no contienen el contenido editorial. `src/data/trip.ts` conserva viaje, jornadas, paradas, consejos, alternativas y presupuesto; `src/data/restaurants.ts` conserva las treinta fichas de mesa y compra.
 
 ## Imágenes
 
@@ -84,7 +84,7 @@ Para Sites, genera primero el build y publica desde la integración de hosting. 
 
 ## Limitaciones conocidas
 
-- Todo el contenido y todas las coordenadas son de demostración.
+- Las coordenadas son estáticas y deben volver a verificarse si cambia el destino de algún enlace de Google Maps.
 - OSRM y Open-Meteo permanecen desactivados intencionadamente hasta disponer de datos reales.
 - Los cambios locales no se sincronizan entre dispositivos.
 - El mapa base necesita red para mosaicos no visitados anteriormente.

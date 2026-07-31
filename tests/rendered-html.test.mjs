@@ -19,7 +19,7 @@ test("renders the travel app and its five-section navigation", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   const html = await response.text();
   assert.match(html, /Fenouill(?:&egrave;|è)des/i);
-  assert.match(html, /Cuatro d(?:&iacute;|í)as, cuatro paisajes/i);
+  assert.match(html, /Cuatro d(?:&iacute;|í)as, sin apretar el paso/i);
   for (const label of ["Resumen", "Mapa", "Restaurantes", "Monumentos", "Info práctica"]) {
     assert.match(html, new RegExp(label, "i"));
   }
@@ -30,7 +30,7 @@ test("supports a direct day route", async () => {
   const response = await render("/dias/dia-2");
   assert.equal(response.status, 200);
   const html = await response.text();
-  assert.match(html, /Gargantas y abad(?:&iacute;|í)as/i);
+  assert.match(html, /El mar, que es el mejor aire acondicionado/i);
   assert.match(html, /Hora de salida/i);
 });
 
