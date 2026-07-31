@@ -1,5 +1,17 @@
-const CACHE = "fenouilledes-shell-v2";
-const CORE = ["/", "/manifest.webmanifest", "/icon-192.png", "/icon-512.png", "/og.png"];
+const CACHE = "fenouilledes-shell-v3";
+const SCOPE = new URL(self.registration.scope).pathname;
+const scoped = (path) => `${SCOPE}${path}`.replace(/\/+/g, "/");
+const CORE = [
+  SCOPE,
+  scoped("manifest.webmanifest"),
+  scoped("icon-192.png"),
+  scoped("icon-512.png"),
+  scoped("og.png"),
+  scoped("images/galamus.jpg"),
+  scoped("images/collioure.jpg"),
+  scoped("images/carcassonne.jpg"),
+  scoped("images/villefranche.jpg"),
+];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(CORE)));
@@ -27,5 +39,5 @@ self.addEventListener("fetch", (event) => {
   event.respondWith(fetch(event.request).then((response) => {
     if (response.ok && url.origin === self.location.origin) caches.open(CACHE).then((cache) => cache.put(event.request, response.clone()));
     return response;
-  }).catch(() => caches.match(event.request).then((cached) => cached || caches.match("/"))));
+  }).catch(() => caches.match(event.request).then((cached) => cached || caches.match(SCOPE))));
 });

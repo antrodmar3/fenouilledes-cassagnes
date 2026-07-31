@@ -1,7 +1,6 @@
 "use client";
 
-import dynamic from "next/dynamic";
-import { useCallback, useEffect, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useState } from "react";
 import {
   ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Backpack, CalendarDays, Car, Check,
   ChevronDown, CircleHelp, Clock3, CloudSun, ExternalLink, Heart, Info, Landmark,
@@ -16,20 +15,26 @@ import { clearState, createDefaultState, loadState, saveState } from "@/src/serv
 import type { Day, PlaceStatus, Stop, UserState } from "@/src/types/trip";
 import { calculateSchedule } from "@/src/utils/schedule";
 
-const MapView = dynamic(() => import("./MapView"), {
-  ssr: false,
-  loading: () => <div className="map-loading"><MapIcon size={30} /><span>Preparando el mapa…</span></div>,
-});
+const MapView = lazy(() => import("./MapView"));
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+const appPath = (path: string) => `${basePath}${path}` || "/";
 
 type Section = "summary" | "map" | "restaurants" | "monuments" | "practical";
 
 const navItems = [
-  { id: "summary" as const, label: "Resumen", icon: CalendarDays },
+  { id: "summary" as const, label: "Inicio", icon: CalendarDays },
   { id: "map" as const, label: "Mapa", icon: MapIcon },
   { id: "restaurants" as const, label: "Restaurantes", icon: Utensils },
   { id: "monuments" as const, label: "Monumentos", icon: Landmark },
-  { id: "practical" as const, label: "Info práctica", icon: Info },
+  { id: "practical" as const, label: "Info", icon: Info },
 ];
+
+const dayPhotos: Record<string, { src: string; alt: string; credit: string }> = {
+  "dia-1": { src: "/images/galamus.jpg", alt: "Relieve calizo y bosque en las Gorges de Galamus", credit: "Doronenko · CC BY-SA 4.0" },
+  "dia-2": { src: "/images/collioure.jpg", alt: "Casas de Collioure junto al Mediterráneo", credit: "Jorge Franganillo · CC BY 3.0" },
+  "dia-3": { src: "/images/carcassonne.jpg", alt: "Panorama de la ciudad fortificada de Carcasona", credit: "Lesueur André · CC BY-SA 4.0" },
+  "dia-4": { src: "/images/villefranche.jpg", alt: "Villefranche-de-Conflent entre montañas", credit: "Alan Mattingly · CC0" },
+};
 
 const toggleId = (list: string[], id: string) => list.includes(id) ? list.filter((item) => item !== id) : [...list, id];
 
@@ -53,15 +58,14 @@ function Metric({ icon: Icon, value, label }: { icon: typeof Clock3; value: stri
   return <div className="metric"><Icon size={18} /><div><strong>{value}</strong><span>{label}</span></div></div>;
 }
 
-function PlaceholderArt({ tone, label, large = false }: { tone: Day["tone"]; label: string; large?: boolean }) {
+function TravelPhoto({ photo, large = false }: { photo: (typeof dayPhotos)[string]; large?: boolean }) {
   return (
-    <div className={`placeholder-art tone-${tone} ${large ? "placeholder-large" : ""}`} role="img" aria-label={`Imagen de muestra: ${label}`}>
-      <span className="sun-disc" />
-      <span className="ridge ridge-back" />
-      <span className="ridge ridge-front" />
-      <span className="castle-shape" />
-      <span className="art-caption">Imagen provisional</span>
-    </div>
+    <figure className={`travel-photo ${large ? "travel-photo-large" : ""}`}>
+      {/* Plain img keeps the same component portable in the Vinext and static GitHub Pages builds. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={appPath(photo.src)} alt={photo.alt} loading={large ? "eager" : "lazy"} />
+      <figcaption>{photo.credit}</figcaption>
+    </figure>
   );
 }
 
@@ -134,7 +138,7 @@ function SortableStopCard({
 
 export default function TripApp({ initialDayId }: { initialDayId?: string }) {
   const [section, setSection] = useState<Section>("summary");
-  const [activeDayId, setActiveDayId] = useState<string | null>(initialDayId ?? null);
+  const [activeDayId, setActiveDayId] = useState<string | null>(() => initialDayId ?? (typeof window !== "undefined" ? window.location.pathname.match(/\/dias\/([^/]+)/)?.[1] ?? null : null));
   const [state, setState] = useState<UserState>(() => ({ ...createDefaultState(), theme: "light" }));
   const [hydrated, setHydrated] = useState(false);
   const [online, setOnline] = useState(true);
@@ -155,7 +159,7 @@ export default function TripApp({ initialDayId }: { initialDayId?: string }) {
     const onOffline = () => setOnline(false);
     window.addEventListener("online", onOnline);
     window.addEventListener("offline", onOffline);
-    if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => undefined);
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register(appPath("/sw.js")).catch(() => undefined);
     return () => { window.removeEventListener("online", onOnline); window.removeEventListener("offline", onOffline); };
   }, []);
 
@@ -168,13 +172,13 @@ export default function TripApp({ initialDayId }: { initialDayId?: string }) {
   const navigate = useCallback((next: Section) => {
     setSection(next);
     setActiveDayId(null);
-    window.history.pushState({}, "", next === "summary" ? "/" : `/?seccion=${next}`);
+    window.history.pushState({}, "", next === "summary" ? appPath("/") : `${appPath("/")}?seccion=${next}`);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   const openDay = useCallback((dayId: string) => {
     setActiveDayId(dayId);
-    window.history.pushState({}, "", `/dias/${dayId}`);
+    window.history.pushState({}, "", appPath(`/dias/${dayId}`));
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
@@ -196,7 +200,7 @@ export default function TripApp({ initialDayId }: { initialDayId?: string }) {
   };
 
   const content = activeDay ? (
-    <DayDetail day={activeDay} state={state} setState={setState} statusFor={statusFor} onBack={() => { setActiveDayId(null); window.history.pushState({}, "", "/"); }} sensors={sensors} />
+    <DayDetail day={activeDay} state={state} setState={setState} statusFor={statusFor} onBack={() => { setActiveDayId(null); window.history.pushState({}, "", appPath("/")); }} sensors={sensors} />
   ) : section === "summary" ? (
     <Summary openDay={openDay} navigate={navigate} progress={progress} />
   ) : section === "map" ? (
@@ -212,7 +216,7 @@ export default function TripApp({ initialDayId }: { initialDayId?: string }) {
   return (
     <div className="app-shell">
       <header className="topbar">
-        <button className="brand" onClick={() => navigate("summary")} aria-label="Ir al resumen">
+        <button className="brand" onClick={() => navigate("summary")} aria-label="Ir a Inicio">
           <span className="brand-mark">F</span><span><strong>{trip.title}</strong><small>desde Cassagnes</small></span>
         </button>
         <button className="theme-toggle" onClick={() => setState((current) => ({ ...current, theme: current.theme === "light" ? "dark" : "light" }))} aria-label={`Activar modo ${state.theme === "light" ? "oscuro" : "claro"}`}>
@@ -237,10 +241,10 @@ function Summary({ openDay, navigate, progress }: { openDay: (id: string) => voi
   return (
     <div className="page summary-page">
       <section className="hero">
-        <PlaceholderArt tone="wine" label="Paisaje de Fenouillèdes" large />
+        <TravelPhoto photo={dayPhotos["dia-1"]} large />
         <div className="hero-copy">
           <p className="eyebrow light">Tu escapada de 4 días</p>
-          <h1>{trip.title}<br />{trip.subtitle}</h1>
+          <h1>{trip.title}<br /><em>{trip.subtitle}</em></h1>
           <p>{trip.description}</p>
           <div className="hero-base"><MapPin size={18} /><span>Base en <strong>{trip.base}</strong> · 9 personas</span></div>
         </div>
@@ -252,7 +256,7 @@ function Summary({ openDay, navigate, progress }: { openDay: (id: string) => voi
           const done = progress(day);
           return (
             <button key={day.id} className="day-card" onClick={() => openDay(day.id)}>
-              <PlaceholderArt tone={day.tone} label={day.title} />
+              <TravelPhoto photo={dayPhotos[day.id]} />
               <div className="day-card-body">
                 <div className="day-card-top"><span className="day-number">Día {day.number}</span><WeatherPill day={day} /></div>
                 <p className="eyebrow">{day.subtitle}</p><h3>{day.title}</h3>
@@ -320,9 +324,9 @@ function DayDetail({ day, state, setState, statusFor, onBack, sensors }: { day: 
 
   return (
     <div className="day-detail">
-      <button className="back-button" onClick={onBack}><ArrowLeft size={18} /> Volver al resumen</button>
+      <button className="back-button" onClick={onBack}><ArrowLeft size={18} /> Volver a Inicio</button>
       <section className="day-hero">
-        <PlaceholderArt tone={day.tone} label={day.title} large />
+        <TravelPhoto photo={dayPhotos[day.id]} large />
         <div className="day-hero-copy"><span className="day-number">Día {day.number}</span><p className="eyebrow light">{day.subtitle}</p><h1>{day.title}</h1><WeatherPill day={day} detailed /></div>
       </section>
       <section className="day-overview">
@@ -364,7 +368,7 @@ function MapScreen({ state, mapDays, setMapDays, routeVisible, setRouteVisible, 
   const visibleStops = stops.filter((stop) => mapDays.includes(stop.dayId) && !state.removedStopIds.includes(stop.id));
   return <div className="page"><div className="page-title"><p className="eyebrow">Explora la ruta</p><h1>Mapa del viaje</h1><p>Todas las paradas de la guía, agrupadas por día.</p></div>
     <div className="map-toolbar"><div className="filter-scroll">{days.map((day) => <button key={day.id} className={mapDays.includes(day.id) ? "active" : ""} onClick={() => setMapDays(toggleId(mapDays, day.id))}><span>{day.number}</span>Día {day.number}</button>)}</div><button className={`route-toggle ${routeVisible ? "active" : ""}`} onClick={() => setRouteVisible(!routeVisible)}><Route size={17} /> Ruta {routeVisible ? "visible" : "oculta"}</button></div>
-    <div className="map-wrap"><MapView stops={visibleStops} onOpenDay={openDay} />{!routeVisible ? null : <div className="route-notice"><Info size={15} /> La ruta OSRM se activará con las coordenadas definitivas.</div>}</div>
+    <div className="map-wrap"><Suspense fallback={<div className="map-loading"><MapIcon size={30} /><span>Preparando el mapa…</span></div>}><MapView stops={visibleStops} onOpenDay={openDay} /></Suspense>{!routeVisible ? null : <div className="route-notice"><Info size={15} /> La ruta OSRM se activará con las coordenadas definitivas.</div>}</div>
     <div className="map-legend">{days.map((day) => <span key={day.id}><i className={`legend-dot tone-${day.tone}`} />Día {day.number}</span>)}</div>
   </div>;
 }

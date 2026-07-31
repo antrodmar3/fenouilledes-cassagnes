@@ -20,10 +20,10 @@ test("renders the travel app and its five-section navigation", async () => {
   const html = await response.text();
   assert.match(html, /Fenouill(?:&egrave;|è)des/i);
   assert.match(html, /Cuatro d(?:&iacute;|í)as, sin apretar el paso/i);
-  for (const label of ["Resumen", "Mapa", "Restaurantes", "Monumentos", "Info práctica"]) {
+  for (const label of ["Inicio", "Mapa", "Restaurantes", "Monumentos", "Info"]) {
     assert.match(html, new RegExp(label, "i"));
   }
-  assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
+  assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|imagen provisional/i);
 });
 
 test("supports a direct day route", async () => {
@@ -41,7 +41,8 @@ test("ships an installable manifest and offline worker", async () => {
   ]);
   const manifest = JSON.parse(manifestText);
   assert.equal(manifest.display, "standalone");
-  assert.equal(manifest.start_url, "/");
+  assert.equal(manifest.start_url, "./");
+  assert.equal(manifest.scope, "./");
   assert.ok(manifest.icons.some((icon) => icon.sizes === "192x192"));
   assert.ok(manifest.icons.some((icon) => icon.sizes === "512x512"));
   assert.match(worker, /caches\.open/);

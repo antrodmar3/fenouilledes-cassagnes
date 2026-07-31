@@ -58,12 +58,7 @@ Los componentes no contienen el contenido editorial. `src/data/trip.ts` conserva
 
 ## Imágenes
 
-Las portadas actuales son placeholders CSS y están rotuladas como provisionales. Cuando llegue el contenido real:
-
-1. Selecciona una imagen correcta por día.
-2. Guárdala optimizada en `public/images/` (WebP o AVIF).
-3. Añade su ruta y texto alternativo al modelo de datos.
-4. Registra autor, fuente, URL y licencia en `IMAGE_CREDITS.md`.
+Inicio y las cabeceras de jornada usan fotografías reales de Galamus, Collioure, Carcasona y Villefranche-de-Conflent. Los archivos se sirven localmente desde `public/images/`; autoría, fuente y licencia están documentadas en `IMAGE_CREDITS.md`.
 
 ## PWA y funcionamiento offline
 
@@ -78,7 +73,15 @@ El estado del usuario se guarda en su dispositivo mediante la capa de `src/servi
 
 ## Despliegue
 
-El proyecto está preparado para Sites/Cloudflare. También puede adaptarse a Cloudflare Pages, Netlify o Vercel siempre que el hosting reescriba rutas desconocidas al shell de la aplicación para soportar `/dias/:dayId`.
+La aplicación se publica automáticamente en GitHub Pages mediante `.github/workflows/pages.yml` cada vez que se actualiza `main`. Para generar localmente el mismo artefacto:
+
+```bash
+npm run build:pages
+```
+
+El resultado queda en `dist-pages/`; también incluye `404.html` para que las rutas directas como `/dias/:dayId` vuelvan al shell de la aplicación.
+
+El proyecto también está preparado para Sites/Cloudflare, Netlify o Vercel siempre que el hosting reescriba rutas desconocidas al shell de la aplicación.
 
 Para Sites, genera primero el build y publica desde la integración de hosting. No requiere servidor propio, base de datos ni variables secretas.
 
