@@ -1,5 +1,5 @@
 import type { UserState } from "@/src/types/trip";
-import { days } from "@/src/data/trip";
+import { days, groupAdvice } from "@/src/data/trip";
 
 const STORAGE_KEY = "fenouilledes:user-state:v1";
 
@@ -15,6 +15,7 @@ export function createDefaultState(): UserState {
     removedStopIds: [],
     favoriteRestaurantIds: [],
     discardedRestaurantIds: [],
+    daySuggestionIds: Object.fromEntries(days.map((day) => [day.id, []])),
     notes: {},
     expandedBlocks: {},
   };
@@ -39,6 +40,11 @@ export function loadState(): UserState {
     merged.visitedStopIds = merged.visitedStopIds.filter((id) => validStopIds.has(id));
     merged.skippedStopIds = merged.skippedStopIds.filter((id) => validStopIds.has(id));
     merged.removedStopIds = merged.removedStopIds.filter((id) => validStopIds.has(id));
+    const validSuggestionIds = new Set(groupAdvice.map((item) => item.id));
+    merged.daySuggestionIds = Object.fromEntries(days.map((day) => [
+      day.id,
+      (parsed.daySuggestionIds?.[day.id] ?? []).filter((id) => validSuggestionIds.has(id)),
+    ]));
     return merged;
   } catch {
     return createDefaultState();

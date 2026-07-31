@@ -123,6 +123,7 @@ export interface UserState {
   removedStopIds: string[];
   favoriteRestaurantIds: string[];
   discardedRestaurantIds: string[];
+  daySuggestionIds: Record<string, string[]>;
   notes: Record<string, NoteState>;
   expandedBlocks: Record<string, boolean>;
 }
