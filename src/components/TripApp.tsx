@@ -13,7 +13,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { alternatives, budget, days, foodSafety, groupAdvice, practicalInfo, restaurants, stopById, stops, trip } from "@/src/data/trip";
 import { clearState, createDefaultState, loadState, saveState } from "@/src/services/storage";
 import { fetchForecasts, formatForecastDate, formatUpdatedAt, loadCachedForecasts, weatherDescription, type DayForecast, type ForecastSnapshot } from "@/src/services/weather";
-import type { Day, PlaceStatus, Stop, UserState } from "@/src/types/trip";
+import type { Day, PlaceStatus, Restaurant, Stop, UserState } from "@/src/types/trip";
 import { calculateSchedule } from "@/src/utils/schedule";
 
 const MapView = lazy(() => import("./MapView"));
@@ -401,12 +401,34 @@ function MapScreen({ state, mapDays, setMapDays, routeVisible, setRouteVisible, 
   </div>;
 }
 
+function mealLabelsFor(restaurant: Restaurant): Array<"Almuerzo" | "Cena"> {
+  const type = restaurant.mealType.toLocaleLowerCase("es");
+  const schedule = restaurant.schedule.toLocaleLowerCase("es");
+  if (type.includes("compra") || type.includes("bodega")) return [];
+  if (type.includes("comida")) return ["Almuerzo"];
+  if (type.includes("cena") || type.includes("en casa")) return ["Cena"];
+  const servesLunch = /comida|mediodía|12:|13:|14:/.test(schedule);
+  const servesDinner = /cena|noche|18:|19:|20:|21:|22:|23:/.test(schedule);
+  if (servesLunch || servesDinner) return [...(servesLunch ? ["Almuerzo" as const] : []), ...(servesDinner ? ["Cena" as const] : [])];
+  return ["Almuerzo", "Cena"];
+}
+
 function RestaurantsScreen({ state, updateList, favoriteOnly, setFavoriteOnly, restaurantDay, setRestaurantDay }: { state: UserState; updateList: (key: "visitedStopIds" | "skippedStopIds" | "favoriteRestaurantIds" | "discardedRestaurantIds", id: string) => void; favoriteOnly: boolean; setFavoriteOnly: (value: boolean) => void; restaurantDay: string; setRestaurantDay: (value: string) => void }) {
   const visible = restaurants.filter((restaurant) => !state.discardedRestaurantIds.includes(restaurant.id) && (!favoriteOnly || state.favoriteRestaurantIds.includes(restaurant.id)) && (restaurantDay === "all" || restaurant.dayIds.includes(restaurantDay)));
   const discarded = restaurants.filter((restaurant) => state.discardedRestaurantIds.includes(restaurant.id));
   return <div className="page"><div className="page-title"><p className="eyebrow">Para sentarse a la mesa</p><h1>Restaurantes</h1><p>Las treinta fichas de la guía: comidas, cenas, caprichos y compras para llevar a casa.</p></div>
     <div className="filters"><button className={favoriteOnly ? "active" : ""} onClick={() => setFavoriteOnly(!favoriteOnly)}><Heart size={17} /> Solo favoritos</button><select value={restaurantDay} onChange={(event) => setRestaurantDay(event.target.value)} aria-label="Filtrar restaurantes por día"><option value="all">Todos los días</option>{days.map((day) => <option key={day.id} value={day.id}>Día {day.number}</option>)}</select></div>
-    <section className="restaurant-grid">{visible.map((restaurant) => <article className="restaurant-card" key={restaurant.id}><div className="restaurant-top"><div className="restaurant-icon"><Utensils /></div><button className={`heart-button ${state.favoriteRestaurantIds.includes(restaurant.id) ? "active" : ""}`} onClick={() => updateList("favoriteRestaurantIds", restaurant.id)} aria-label="Alternar favorito"><Heart size={21} fill={state.favoriteRestaurantIds.includes(restaurant.id) ? "currentColor" : "none"} /></button></div><p className="eyebrow">{restaurant.town} · {restaurant.mealType}</p><h2>{restaurant.name}</h2><div className="rating"><Star size={17} fill="currentColor" /><strong>{restaurant.rating}</strong><span>{restaurant.reviewCount.toLocaleString("es-ES")} opiniones</span></div><p>{restaurant.description}</p><div className="restaurant-facts"><span>{restaurant.priceRange}</span><span>{restaurant.groupCapacity}</span></div>{restaurant.safetyNote && <div className="warning"><Info size={16} /><span><strong>Embarazo:</strong> {restaurant.safetyNote}</span></div>}<div className="schedule"><Clock3 size={16} />{restaurant.schedule}</div><div className="action-row">{restaurant.phone && <a className="chip-button" href={`tel:${restaurant.phone}`}><Phone size={16} /> Llamar</a>}<a className="chip-button" href={restaurant.googleMapsUrl} target="_blank" rel="noreferrer"><Navigation size={16} /> Mapa</a><button className="icon-button" onClick={() => updateList("discardedRestaurantIds", restaurant.id)} aria-label="Descartar restaurante"><X size={17} /></button></div></article>)}</section>
+    <section className="restaurant-grid">{visible.map((restaurant) => {
+      const restaurantDays = days.filter((day) => restaurant.dayIds.includes(day.id));
+      const mealLabels = mealLabelsFor(restaurant);
+      return <article className="restaurant-card" key={restaurant.id}>
+        <div className="restaurant-days" aria-label={`Días recomendados: ${restaurantDays.map((day) => day.number).join(", ")}`}>{restaurantDays.map((day) => <span key={day.id} className={`place-number tone-${day.tone}`}>{day.number}</span>)}</div>
+        <div className="restaurant-content">
+          <div className="restaurant-top"><div className="meal-labels">{mealLabels.map((label) => <span key={label} className={`meal-label meal-${label === "Almuerzo" ? "lunch" : "dinner"}`}>{label}</span>)}{mealLabels.length === 0 && <span className="meal-label meal-stop">{restaurant.mealType}</span>}</div><button className={`heart-button ${state.favoriteRestaurantIds.includes(restaurant.id) ? "active" : ""}`} onClick={() => updateList("favoriteRestaurantIds", restaurant.id)} aria-label={`Alternar favorito: ${restaurant.name}`}><Heart size={21} fill={state.favoriteRestaurantIds.includes(restaurant.id) ? "currentColor" : "none"} /></button></div>
+          <p className="eyebrow">{restaurant.town} · {restaurant.mealType}</p><h2>{restaurant.name}</h2><div className="rating"><Star size={17} fill="currentColor" /><strong>{restaurant.rating}</strong><span>{restaurant.reviewCount.toLocaleString("es-ES")} opiniones</span></div><p>{restaurant.description}</p><div className="restaurant-facts"><span>{restaurant.priceRange}</span><span>{restaurant.groupCapacity}</span></div>{restaurant.safetyNote && <div className="warning"><Info size={16} /><span><strong>Embarazo:</strong> {restaurant.safetyNote}</span></div>}<div className="schedule"><Clock3 size={16} />{restaurant.schedule}</div><div className="action-row">{restaurant.phone && <a className="chip-button" href={`tel:${restaurant.phone}`}><Phone size={16} /> Llamar</a>}<a className="chip-button" href={restaurant.googleMapsUrl} target="_blank" rel="noreferrer"><Navigation size={16} /> Mapa</a><button className="icon-button" onClick={() => updateList("discardedRestaurantIds", restaurant.id)} aria-label="Descartar restaurante"><X size={17} /></button></div>
+        </div>
+      </article>;
+    })}</section>
     {visible.length === 0 && <div className="empty-state"><Utensils /><h2>No hay restaurantes con estos filtros</h2><button onClick={() => { setFavoriteOnly(false); setRestaurantDay("all"); }}>Quitar filtros</button></div>}
     {discarded.length > 0 && <section className="removed-block"><h2>Restaurantes descartados</h2>{discarded.map((restaurant) => <div key={restaurant.id}><div><strong>{restaurant.name}</strong><span>{restaurant.town}</span></div><button onClick={() => updateList("discardedRestaurantIds", restaurant.id)}><RotateCcw size={16} /> Restaurar</button></div>)}</section>}
   </div>;
