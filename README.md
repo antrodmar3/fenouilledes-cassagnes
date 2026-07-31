@@ -2,7 +2,7 @@
 
 PWA mobile-first para consultar y personalizar un viaje de cuatro días por Fenouillèdes y el país cátaro, con base en Cassagnes.
 
-El contenido procede de `content/Fenouilledes-paso-lento-DEFINITIVO.html`, conservado como fuente de verdad. La interfaz no incrusta ese documento: días, paradas, restaurantes y consejos están estructurados en TypeScript.
+El contenido procede de `content/Fenouilledes-Cassagnes-DEFINITIVO.html`, conservado como fuente de verdad. La interfaz no incrusta ese documento: días, paradas, restaurantes y consejos están estructurados en TypeScript.
 
 ## Stack
 

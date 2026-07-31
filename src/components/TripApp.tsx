@@ -278,7 +278,7 @@ function Summary({ forecasts, openDay, navigate, progress }: { forecasts?: Recor
         </div>
       </section>
 
-      <div className="section-heading"><div><p className="eyebrow">Tu ruta</p><h2>Cuatro días, sin apretar el paso</h2></div><span>Guía definitiva</span></div>
+      <div className="section-heading"><div><p className="eyebrow">Tu ruta</p><h2>Cuatro días desde Cassagnes</h2></div><span>Guía definitiva</span></div>
       <section className="day-grid">
         {days.map((day) => {
           const done = progress(day);

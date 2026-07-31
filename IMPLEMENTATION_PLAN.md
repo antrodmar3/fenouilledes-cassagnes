@@ -2,7 +2,7 @@
 
 ## Fuente y alcance
 
-La fuente de verdad es `content/Fenouilledes-paso-lento-DEFINITIVO.html`. La aplicación transforma su contenido en estructuras TypeScript; no utiliza iframe ni inyecta el HTML original.
+La fuente de verdad es `content/Fenouilledes-Cassagnes-DEFINITIVO.html`. La aplicación transforma su contenido en estructuras TypeScript; no utiliza iframe ni inyecta el HTML original.
 
 ## Arquitectura
 
