@@ -46,7 +46,6 @@ export interface Day {
   tone: "wine" | "gold" | "vine" | "slate";
   stopIds: string[];
   weatherLabel: string;
-  weatherDemo: { icon: string; min: number; max: number; rain: number; wind: number };
 }
 
 export interface Restaurant {
