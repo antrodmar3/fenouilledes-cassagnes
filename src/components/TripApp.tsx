@@ -3,7 +3,7 @@
 import { lazy, Suspense, useCallback, useEffect, useState } from "react";
 import {
   ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Backpack, CalendarDays, Car, Check,
-  ChevronDown, CircleHelp, Clock3, CloudSun, ExternalLink, Heart, Info, Landmark,
+  ChevronDown, CircleHelp, Clock3, Cloud, CloudFog, CloudLightning, CloudRain, CloudSnow, CloudSun, ExternalLink, Heart, Info, Landmark,
   Map as MapIcon, MapPin, Moon, MoreHorizontal, Navigation, NotebookPen, Phone,
   Plus, RotateCcw, Route, Star, Sun, Trash2, Utensils, WifiOff, Wind, X,
 } from "lucide-react";
@@ -12,6 +12,7 @@ import { SortableContext, arrayMove, sortableKeyboardCoordinates, useSortable, v
 import { CSS } from "@dnd-kit/utilities";
 import { alternatives, budget, days, foodSafety, groupAdvice, practicalInfo, restaurants, stopById, stops, trip } from "@/src/data/trip";
 import { clearState, createDefaultState, loadState, saveState } from "@/src/services/storage";
+import { fetchForecasts, formatForecastDate, formatUpdatedAt, loadCachedForecasts, weatherDescription, type DayForecast, type ForecastSnapshot } from "@/src/services/weather";
 import type { Day, PlaceStatus, Stop, UserState } from "@/src/types/trip";
 import { calculateSchedule } from "@/src/utils/schedule";
 
@@ -20,6 +21,7 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
 const appPath = (path: string) => `${basePath}${path}` || "/";
 
 type Section = "summary" | "map" | "restaurants" | "monuments" | "practical";
+type WeatherState = { snapshot: ForecastSnapshot | null; source: "loading" | "live" | "cache" | "error" };
 
 const navItems = [
   { id: "summary" as const, label: "Inicio", icon: CalendarDays },
@@ -38,13 +40,24 @@ const dayPhotos: Record<string, { src: string; alt: string; credit: string }> = 
 
 const toggleId = (list: string[], id: string) => list.includes(id) ? list.filter((item) => item !== id) : [...list, id];
 
-function WeatherPill({ day, detailed = false }: { day: Day; detailed?: boolean }) {
+function WeatherSymbol({ code, size = 18 }: { code: number; size?: number }) {
+  if (code === 0) return <Sun size={size} />;
+  if (code <= 3) return <CloudSun size={size} />;
+  if (code <= 48) return <CloudFog size={size} />;
+  if (code <= 67 || (code >= 80 && code <= 82)) return <CloudRain size={size} />;
+  if ((code >= 71 && code <= 77) || (code >= 85 && code <= 86)) return <CloudSnow size={size} />;
+  if (code >= 95) return <CloudLightning size={size} />;
+  return <Cloud size={size} />;
+}
+
+function WeatherPill({ day, forecast, detailed = false }: { day: Day; forecast?: DayForecast; detailed?: boolean }) {
+  if (!forecast) return <div className="weather weather-loading"><Cloud size={detailed ? 24 : 18} /><span>Cargando previsión…</span></div>;
   return (
-    <div className={detailed ? "weather weather-large" : "weather"} aria-label="Meteorología de demostración">
-      <CloudSun size={detailed ? 24 : 18} />
-      <span><strong>{day.weatherDemo.max}°</strong> / {day.weatherDemo.min}°</span>
-      {detailed && <><span>{day.weatherDemo.rain}% lluvia</span><span><Wind size={15} /> {day.weatherDemo.wind} km/h</span></>}
-      <small>demo</small>
+    <div className={detailed ? "weather weather-large" : "weather"} aria-label={`Previsión real para ${day.weatherLabel}: ${weatherDescription(forecast.weatherCode)}`}>
+      <WeatherSymbol code={forecast.weatherCode} size={detailed ? 24 : 18} />
+      <span><strong>{forecast.max}°</strong> / {forecast.min}°</span>
+      {detailed && <><span>{weatherDescription(forecast.weatherCode)}</span><span>{forecast.rainProbability}% lluvia</span><span><Wind size={15} /> {forecast.windMax} km/h</span></>}
+      <small>{formatForecastDate(forecast.date, true)}</small>
     </div>
   );
 }
@@ -147,6 +160,10 @@ export default function TripApp({ initialDayId }: { initialDayId?: string }) {
   const [monumentDay, setMonumentDay] = useState("all");
   const [mapDays, setMapDays] = useState<string[]>(days.map((day) => day.id));
   const [routeVisible, setRouteVisible] = useState(true);
+  const [weather, setWeather] = useState<WeatherState>(() => {
+    const cached = typeof window !== "undefined" ? loadCachedForecasts() : null;
+    return cached ? { snapshot: cached, source: "cache" } : { snapshot: null, source: "loading" };
+  });
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }), useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }));
 
   useEffect(() => {
@@ -168,6 +185,17 @@ export default function TripApp({ initialDayId }: { initialDayId?: string }) {
     document.documentElement.style.colorScheme = state.theme;
     if (hydrated) saveState(state);
   }, [hydrated, state]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetchForecasts(controller.signal)
+      .then((snapshot) => setWeather({ snapshot, source: "live" }))
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        setWeather((current) => current.snapshot ? { ...current, source: "cache" } : { snapshot: null, source: "error" });
+      });
+    return () => controller.abort();
+  }, []);
 
   const navigate = useCallback((next: Section) => {
     setSection(next);
@@ -200,9 +228,9 @@ export default function TripApp({ initialDayId }: { initialDayId?: string }) {
   };
 
   const content = activeDay ? (
-    <DayDetail day={activeDay} state={state} setState={setState} statusFor={statusFor} onBack={() => { setActiveDayId(null); window.history.pushState({}, "", appPath("/")); }} sensors={sensors} />
+    <DayDetail day={activeDay} forecast={weather.snapshot?.forecasts[activeDay.id]} state={state} setState={setState} statusFor={statusFor} onBack={() => { setActiveDayId(null); window.history.pushState({}, "", appPath("/")); }} sensors={sensors} />
   ) : section === "summary" ? (
-    <Summary openDay={openDay} navigate={navigate} progress={progress} />
+    <Summary forecasts={weather.snapshot?.forecasts} openDay={openDay} navigate={navigate} progress={progress} />
   ) : section === "map" ? (
     <MapScreen state={state} mapDays={mapDays} setMapDays={setMapDays} routeVisible={routeVisible} setRouteVisible={setRouteVisible} openDay={openDay} />
   ) : section === "restaurants" ? (
@@ -210,7 +238,7 @@ export default function TripApp({ initialDayId }: { initialDayId?: string }) {
   ) : section === "monuments" ? (
     <MonumentsScreen updateList={updateList} statusFor={statusFor} monumentDay={monumentDay} setMonumentDay={setMonumentDay} />
   ) : (
-    <PracticalScreen setState={setState} />
+    <PracticalScreen setState={setState} weather={weather} />
   );
 
   return (
@@ -237,7 +265,7 @@ export default function TripApp({ initialDayId }: { initialDayId?: string }) {
   );
 }
 
-function Summary({ openDay, navigate, progress }: { openDay: (id: string) => void; navigate: (section: Section) => void; progress: (day: Day) => { visited: number; total: number; percent: number } }) {
+function Summary({ forecasts, openDay, navigate, progress }: { forecasts?: Record<string, DayForecast>; openDay: (id: string) => void; navigate: (section: Section) => void; progress: (day: Day) => { visited: number; total: number; percent: number } }) {
   return (
     <div className="page summary-page">
       <section className="hero">
@@ -258,7 +286,7 @@ function Summary({ openDay, navigate, progress }: { openDay: (id: string) => voi
             <button key={day.id} className="day-card" onClick={() => openDay(day.id)}>
               <TravelPhoto photo={dayPhotos[day.id]} />
               <div className="day-card-body">
-                <div className="day-card-top"><span className="day-number">Día {day.number}</span><WeatherPill day={day} /></div>
+                <div className="day-card-top"><span className="day-number">Día {day.number}</span><WeatherPill day={day} forecast={forecasts?.[day.id]} /></div>
                 <p className="eyebrow">{day.subtitle}</p><h3>{day.title}</h3>
                 <div className="mini-metrics"><span><Route size={16} /> {day.distanceKm} km</span><span><Car size={16} /> {Math.floor(day.drivingMinutes / 60)} h {day.drivingMinutes % 60} min</span><span><Backpack size={16} /> {Math.floor(day.walkingMinutes / 60)} h {day.walkingMinutes % 60} min</span><span>Entradas {day.entryCost}</span></div>
                 <div className="progress-copy"><span>{done.visited} de {done.total} visitadas</span><strong>{done.percent}%</strong></div>
@@ -277,7 +305,7 @@ function Summary({ openDay, navigate, progress }: { openDay: (id: string) => voi
   );
 }
 
-function DayDetail({ day, state, setState, statusFor, onBack, sensors }: { day: Day; state: UserState; setState: React.Dispatch<React.SetStateAction<UserState>>; statusFor: (id: string) => PlaceStatus; onBack: () => void; sensors: ReturnType<typeof useSensors> }) {
+function DayDetail({ day, forecast, state, setState, statusFor, onBack, sensors }: { day: Day; forecast?: DayForecast; state: UserState; setState: React.Dispatch<React.SetStateAction<UserState>>; statusFor: (id: string) => PlaceStatus; onBack: () => void; sensors: ReturnType<typeof useSensors> }) {
   const order = state.stopOrder[day.id] ?? day.stopIds;
   const activeIds = order.filter((id) => !state.removedStopIds.includes(id) && !state.skippedStopIds.includes(id));
   const activeStops = activeIds.map((id) => stopById[id]).filter(Boolean);
@@ -327,7 +355,7 @@ function DayDetail({ day, state, setState, statusFor, onBack, sensors }: { day: 
       <button className="back-button" onClick={onBack}><ArrowLeft size={18} /> Volver a Inicio</button>
       <section className="day-hero">
         <TravelPhoto photo={dayPhotos[day.id]} large />
-        <div className="day-hero-copy"><span className="day-number">Día {day.number}</span><p className="eyebrow light">{day.subtitle}</p><h1>{day.title}</h1><WeatherPill day={day} detailed /></div>
+        <div className="day-hero-copy"><span className="day-number">Día {day.number}</span><p className="eyebrow light">{day.subtitle}</p><h1>{day.title}</h1><WeatherPill day={day} forecast={forecast} detailed /></div>
       </section>
       <section className="day-overview">
         <Metric icon={Route} value={`${day.distanceKm} km`} label="Ruta total" />
@@ -391,11 +419,16 @@ function MonumentsScreen({ updateList, statusFor, monumentDay, setMonumentDay }:
   </div>;
 }
 
-function PracticalScreen({ setState }: { setState: React.Dispatch<React.SetStateAction<UserState>> }) {
+function PracticalScreen({ setState, weather }: { setState: React.Dispatch<React.SetStateAction<UserState>>; weather: WeatherState }) {
   const iconFor = (icon: string) => icon === "wind" ? <Wind /> : icon === "car" ? <Car /> : icon === "backpack" ? <Backpack /> : icon === "sun" ? <Sun /> : <WifiOff />;
   const reset = () => { if (window.confirm("Se borrarán del dispositivo las visitas, notas, tareas, favoritos y preferencias.")) { clearState(); setState(createDefaultState()); } };
+  const weatherStatus = weather.source === "live" && weather.snapshot
+    ? `Actualizado ${formatUpdatedAt(weather.snapshot.updatedAt)}`
+    : weather.source === "cache" && weather.snapshot
+      ? `Última previsión guardada · ${formatUpdatedAt(weather.snapshot.updatedAt)}`
+      : weather.source === "error" ? "Previsión temporalmente no disponible" : "Actualizando previsión…";
   return <div className="page"><div className="page-title"><p className="eyebrow">Conviene saber</p><h1>Información práctica</h1><p>La guía completa para moverse, comer y decidir sobre la marcha cuando sois nueve.</p></div>
-    <section className="weather-board"><div><p className="eyebrow light">Vista conjunta</p><h2>El tiempo, día a día</h2><span>Datos ficticios · no usar para planificar</span></div><div className="weather-days">{days.map((day) => <div key={day.id}><strong>D{day.number}</strong><CloudSun /><span>{day.weatherDemo.max}°</span><small>{day.weatherDemo.rain}%</small></div>)}</div></section>
+    <section className="weather-board"><div><p className="eyebrow light">Próximos cuatro días</p><h2>El tiempo, día a día</h2><span>{weatherStatus} · <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open‑Meteo</a></span></div><div className="weather-days">{days.map((day) => { const forecast = weather.snapshot?.forecasts[day.id]; return <div key={day.id} title={forecast ? `${forecast.location}: ${weatherDescription(forecast.weatherCode)}` : "Cargando previsión"}><strong>D{day.number}</strong>{forecast ? <><WeatherSymbol code={forecast.weatherCode} /><span>{forecast.max}°</span><small>{formatForecastDate(forecast.date, true)} · {forecast.rainProbability}%</small></> : <><Cloud /><span>—</span><small>cargando</small></>}</div>; })}</div></section>
     <div className="section-heading"><div><p className="eyebrow">En la mochila</p><h2>Antes de salir</h2></div></div><section className="practical-grid">{practicalInfo.map((item) => <article key={item.id}><span className="practical-icon">{iconFor(item.icon)}</span><div><p className="eyebrow">{item.category}{item.dayId ? ` · Día ${days.find((day) => day.id === item.dayId)?.number}` : ""}</p><h3>{item.title}</h3><p>{item.text}</p></div></article>)}</section>
     <div className="section-heading"><div><p className="eyebrow">Nueve a la mesa</p><h2>Lo que cambia en grupo</h2></div></div><section className="practical-grid">{groupAdvice.map((item) => <article key={item.id}><span className="practical-icon"><Utensils /></span><div><p className="eyebrow">{item.kicker}</p><h3>{item.title}</h3><p>{item.text}</p></div></article>)}</section>
     <div className="section-heading"><div><p className="eyebrow">A la mesa</p><h2>Comer catalán con una lista</h2></div></div><section className="food-safety"><p>{foodSafety.intro}</p><div><article><h3><Check size={19} /> Sin problema</h3><ul>{foodSafety.safe.map((item) => <li key={item}>{item}</li>)}</ul></article><article><h3><X size={19} /> Mejor no</h3><ul>{foodSafety.avoid.map((item) => <li key={item}>{item}</li>)}</ul></article></div><p className="food-phrases"><strong>Frases útiles:</strong> {foodSafety.phrases}</p></section>

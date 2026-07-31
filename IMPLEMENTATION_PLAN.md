@@ -22,7 +22,7 @@ El contenido editorial es inmutable. El estado mutable del usuario —orden, vis
 
 - Leaflet y OpenStreetMap: mapa interactivo.
 - OSRM: pendiente de activar para geometría real y caché de rutas.
-- Open-Meteo: pendiente de fechas concretas; la interfaz marca claramente la meteorología provisional.
+- Open-Meteo: activo para los próximos cuatro días, con ubicaciones representativas y caché offline.
 - Service worker: shell, datos y recursos locales disponibles sin conexión después de la primera carga.
 
 ## Imágenes
@@ -31,6 +31,6 @@ Las portadas actuales son composiciones editoriales CSS rotuladas como provision
 
 ## Pendientes documentados
 
-- Activar OSRM y Open-Meteo cuando se confirme la fecha del viaje.
+- Activar OSRM cuando se complete la verificación de rutas; si se confirman fechas concretas del viaje, permitir seleccionar la fecha inicial de la previsión.
 - Sustituir portadas provisionales por fotografías con licencia verificable.
 - Revalidar horarios, precios, días de cierre, teléfonos y coordenadas antes del viaje: la fuente los identifica como orientativos para la temporada 2026.

@@ -69,7 +69,7 @@ El estado del usuario se guarda en su dispositivo mediante la capa de `src/servi
 ## OSRM y Open-Meteo
 
 - **OSRM:** la UI deja preparado el control de ruta. Se activará el adaptador cuando existan coordenadas definitivas verificadas; debe cachear por secuencia de coordenadas y degradar a tiempos editoriales si falla.
-- **Open-Meteo:** las fichas muestran datos marcados como `demo`. Al conocer las fechas reales, el adaptador consultará la ubicación representativa de cada día y guardará la última respuesta válida. Nunca deben presentarse históricos como previsión.
+- **Open-Meteo:** las jornadas muestran la previsión real de los próximos cuatro días, asociando Día 1 con hoy y Día 4 con dentro de tres días. Se consultan Galamus, Collioure, Carcasona y Mont-Louis. La última respuesta válida se guarda localmente para el modo sin conexión y la interfaz indica cuándo fue actualizada.
 
 ## Despliegue
 
@@ -88,7 +88,7 @@ Para Sites, genera primero el build y publica desde la integración de hosting. 
 ## Limitaciones conocidas
 
 - Las coordenadas son estáticas y deben volver a verificarse si cambia el destino de algún enlace de Google Maps.
-- OSRM y Open-Meteo permanecen desactivados intencionadamente hasta disponer de datos reales.
+- OSRM permanece desactivado intencionadamente hasta completar la verificación de rutas.
 - Los cambios locales no se sincronizan entre dispositivos.
 - El mapa base necesita red para mosaicos no visitados anteriormente.
 - La instalación y el comportamiento exacto de la PWA dependen del navegador y de HTTPS.
