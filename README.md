@@ -69,7 +69,7 @@ El estado del usuario se guarda en su dispositivo mediante la capa de `src/servi
 ## OSRM y Open-Meteo
 
 - **OSRM:** la UI deja preparado el control de ruta. Se activará el adaptador cuando existan coordenadas definitivas verificadas; debe cachear por secuencia de coordenadas y degradar a tiempos editoriales si falla.
-- **Open-Meteo:** las jornadas muestran la previsión real de los próximos cuatro días, asociando Día 1 con hoy y Día 4 con dentro de tres días. Se consultan Galamus, Collioure, Carcasona y Mont-Louis. La última respuesta válida se guarda localmente para el modo sin conexión y la interfaz indica cuándo fue actualizada.
+- **Open-Meteo:** las jornadas muestran la previsión real para las fechas del viaje: Día 1 = 11 de agosto de 2026, Día 2 = 12, Día 3 = 13 y Día 4 = 14. El panel añade el 15 de agosto en Cassagnes como final de la estancia. Se consultan Galamus, Collioure, Carcasona, Mont-Louis y Cassagnes; la última respuesta válida se guarda localmente para el modo sin conexión.
 
 ## Despliegue
 

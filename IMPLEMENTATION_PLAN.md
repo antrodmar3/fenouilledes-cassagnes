@@ -22,7 +22,7 @@ El contenido editorial es inmutable. El estado mutable del usuario —orden, vis
 
 - Leaflet y OpenStreetMap: mapa interactivo.
 - OSRM: pendiente de activar para geometría real y caché de rutas.
-- Open-Meteo: activo para los próximos cuatro días, con ubicaciones representativas y caché offline.
+- Open-Meteo: activo para las fechas fijas del 11 al 15 de agosto de 2026, con ubicaciones representativas y caché offline.
 - Service worker: shell, datos y recursos locales disponibles sin conexión después de la primera carga.
 
 ## Imágenes

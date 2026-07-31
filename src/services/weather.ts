@@ -14,13 +14,17 @@ export interface ForecastSnapshot {
   updatedAt: string;
 }
 
-const CACHE_KEY = "fenouilledes:weather:v1";
+const CACHE_KEY = "fenouilledes:weather:v2";
+export const STAY_END_FORECAST_ID = "estancia-15";
+export const TRIP_WEATHER_START = "2026-08-11";
+export const TRIP_WEATHER_END = "2026-08-15";
 
 const locations = [
-  { dayId: "dia-1", location: "Galamus", latitude: 42.8358, longitude: 2.4798 },
-  { dayId: "dia-2", location: "Collioure", latitude: 42.5251, longitude: 3.0832 },
-  { dayId: "dia-3", location: "Carcasona", latitude: 43.2063, longitude: 2.364 },
-  { dayId: "dia-4", location: "Mont-Louis", latitude: 42.5084, longitude: 2.1217 },
+  { dayId: "dia-1", location: "Galamus", latitude: 42.8358, longitude: 2.4798, forecastIndex: 0 },
+  { dayId: "dia-2", location: "Collioure", latitude: 42.5251, longitude: 3.0832, forecastIndex: 1 },
+  { dayId: "dia-3", location: "Carcasona", latitude: 43.2063, longitude: 2.364, forecastIndex: 2 },
+  { dayId: "dia-4", location: "Mont-Louis", latitude: 42.5084, longitude: 2.1217, forecastIndex: 3 },
+  { dayId: STAY_END_FORECAST_ID, location: "Cassagnes", latitude: 42.7408, longitude: 2.6135, forecastIndex: 4 },
 ] as const;
 
 interface OpenMeteoPlace {
@@ -40,7 +44,8 @@ export async function fetchForecasts(signal?: AbortSignal): Promise<ForecastSnap
     longitude: locations.map((place) => place.longitude).join(","),
     daily: "weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max",
     timezone: "Europe/Paris",
-    forecast_days: "4",
+    start_date: TRIP_WEATHER_START,
+    end_date: TRIP_WEATHER_END,
   });
   const response = await fetch(`https://api.open-meteo.com/v1/forecast?${params}`, { signal });
   if (!response.ok) throw new Error(`Open-Meteo respondió ${response.status}`);
@@ -49,7 +54,7 @@ export async function fetchForecasts(signal?: AbortSignal): Promise<ForecastSnap
 
   const forecasts = Object.fromEntries(locations.map((place, index) => {
     const daily = payload[index]?.daily;
-    const dayIndex = index;
+    const dayIndex = place.forecastIndex;
     if (!daily?.time[dayIndex]) throw new Error(`Falta la previsión para ${place.location}`);
     const forecast: DayForecast = {
       dayId: place.dayId,
