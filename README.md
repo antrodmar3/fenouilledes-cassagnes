@@ -1,0 +1,97 @@
+# Fenouillèdes · Cuaderno de viaje
+
+PWA mobile-first para consultar y personalizar un viaje de cuatro días por Fenouillèdes y el país cátaro, con base en Cassagnes.
+
+> Esta primera versión usa contenido ficticio claramente señalado. El HTML definitivo será la fuente de verdad cuando se incorpore.
+
+## Stack
+
+- React 19 y TypeScript
+- Vinext sobre Vite
+- Leaflet y React Leaflet con OpenStreetMap
+- dnd-kit para reordenación táctil y por teclado
+- Lucide React para iconos
+- CSS moderno con tokens de tema
+- Service worker y Web App Manifest propios
+- Persistencia local versionada
+
+## Instalación y desarrollo
+
+```bash
+npm install
+npm run dev
+```
+
+El servidor mostrará la URL local. Para probar la instalación PWA y el service worker con todas las garantías, usa HTTPS o un despliegue de prueba.
+
+## Build, lint y pruebas
+
+```bash
+npm run lint
+npm run test
+npm run build
+```
+
+## Estructura relevante
+
+```text
+app/                  Rutas, metadatos y estilos globales
+src/components/       Pantallas y componentes interactivos
+src/data/trip.ts      Contenido original inmutable
+src/services/         Persistencia y futuros adaptadores remotos
+src/types/            Tipos compartidos
+src/utils/            Cálculos puros de horario
+public/               Manifest, service worker e iconos
+```
+
+## Cómo modificar el contenido
+
+- **Viaje y cabecera:** modifica `trip` en `src/data/trip.ts`.
+- **Días:** modifica `days`. Conserva un `id` estable y enlaza sus paradas con `stopIds`.
+- **Paradas:** modifica `stops`. `dayId` debe apuntar a un día y `originalOrder` determina la restauración.
+- **Restaurantes:** modifica `restaurants`. `dayIds` admite uno o varios días.
+- **Consejos y alternativas:** modifica `practicalInfo` y `alternatives`.
+- **Coordenadas:** actualiza `coordinates.latitude` y `coordinates.longitude` tras verificarlas; no uses centros genéricos si existe una ubicación exacta.
+- **Enlaces:** guarda el enlace original en `googleMapsUrl`.
+
+Los componentes no contienen el contenido editorial, de modo que la importación del HTML definitivo se limita principalmente a esta capa de datos.
+
+## Imágenes
+
+Las portadas actuales son placeholders CSS y están rotuladas como provisionales. Cuando llegue el contenido real:
+
+1. Selecciona una imagen correcta por día.
+2. Guárdala optimizada en `public/images/` (WebP o AVIF).
+3. Añade su ruta y texto alternativo al modelo de datos.
+4. Registra autor, fuente, URL y licencia en `IMAGE_CREDITS.md`.
+
+## PWA y funcionamiento offline
+
+`public/manifest.webmanifest` configura el modo standalone, colores y punto de inicio. `public/sw.js` precachea el shell y aplica una estrategia network-first con fallback a caché; los mosaicos consultados de OpenStreetMap se almacenan de forma oportunista, sin descarga masiva.
+
+El estado del usuario se guarda en su dispositivo mediante la capa de `src/services/storage.ts`: tema, horarios, orden, visitas, omisiones, eliminaciones, favoritos, descartes, notas y tareas. La clave incluye versión de esquema y se recupera con valores seguros si los datos están corruptos.
+
+## OSRM y Open-Meteo
+
+- **OSRM:** la UI deja preparado el control de ruta. Se activará el adaptador cuando existan coordenadas definitivas verificadas; debe cachear por secuencia de coordenadas y degradar a tiempos editoriales si falla.
+- **Open-Meteo:** las fichas muestran datos marcados como `demo`. Al conocer las fechas reales, el adaptador consultará la ubicación representativa de cada día y guardará la última respuesta válida. Nunca deben presentarse históricos como previsión.
+
+## Despliegue
+
+El proyecto está preparado para Sites/Cloudflare. También puede adaptarse a Cloudflare Pages, Netlify o Vercel siempre que el hosting reescriba rutas desconocidas al shell de la aplicación para soportar `/dias/:dayId`.
+
+Para Sites, genera primero el build y publica desde la integración de hosting. No requiere servidor propio, base de datos ni variables secretas.
+
+## Limitaciones conocidas
+
+- Todo el contenido y todas las coordenadas son de demostración.
+- OSRM y Open-Meteo permanecen desactivados intencionadamente hasta disponer de datos reales.
+- Los cambios locales no se sincronizan entre dispositivos.
+- El mapa base necesita red para mosaicos no visitados anteriormente.
+- La instalación y el comportamiento exacto de la PWA dependen del navegador y de HTTPS.
+
+## Licencias y créditos
+
+- Datos cartográficos: © contribuidores de OpenStreetMap.
+- Iconos: Lucide, licencia ISC.
+- Créditos visuales: consulta `IMAGE_CREDITS.md`.
