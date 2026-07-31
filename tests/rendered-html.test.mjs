@@ -19,18 +19,18 @@ test("renders the travel app and its five-section navigation", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   const html = await response.text();
   assert.match(html, /Fenouill(?:&egrave;|è)des/i);
-  assert.match(html, /Cuatro d(?:&iacute;|í)as, cuatro paisajes/i);
-  for (const label of ["Resumen", "Mapa", "Restaurantes", "Monumentos", "Info práctica"]) {
+  assert.match(html, /Cuatro d(?:&iacute;|í)as, sin apretar el paso/i);
+  for (const label of ["Inicio", "Mapa", "Restaurantes", "Monumentos", "Info"]) {
     assert.match(html, new RegExp(label, "i"));
   }
-  assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
+  assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|imagen provisional/i);
 });
 
 test("supports a direct day route", async () => {
   const response = await render("/dias/dia-2");
   assert.equal(response.status, 200);
   const html = await response.text();
-  assert.match(html, /Gargantas y abad(?:&iacute;|í)as/i);
+  assert.match(html, /El mar, que es el mejor aire acondicionado/i);
   assert.match(html, /Hora de salida/i);
 });
 
@@ -41,7 +41,8 @@ test("ships an installable manifest and offline worker", async () => {
   ]);
   const manifest = JSON.parse(manifestText);
   assert.equal(manifest.display, "standalone");
-  assert.equal(manifest.start_url, "/");
+  assert.equal(manifest.start_url, "./");
+  assert.equal(manifest.scope, "./");
   assert.ok(manifest.icons.some((icon) => icon.sizes === "192x192"));
   assert.ok(manifest.icons.some((icon) => icon.sizes === "512x512"));
   assert.match(worker, /caches\.open/);

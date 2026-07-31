@@ -1,55 +1,36 @@
 # Plan de implementación
 
-## Alcance de esta primera entrega
+## Fuente y alcance
 
-La aplicación se construye con contenido ficticio claramente identificado. La capa de datos queda separada de la interfaz para que el HTML definitivo pueda sustituirla sin reescribir componentes ni estado local.
+La fuente de verdad es `content/Fenouilledes-paso-lento-DEFINITIVO.html`. La aplicación transforma su contenido en estructuras TypeScript; no utiliza iframe ni inyecta el HTML original.
 
 ## Arquitectura
 
-- `app/`: rutas y metadatos de la aplicación.
-- `src/components/`: interfaz y componentes interactivos.
-- `src/data/`: datos originales e inmutables del viaje de demostración.
-- `src/services/`: persistencia local y futuros adaptadores de OSRM/Open-Meteo.
-- `src/utils/`: cálculos puros de horarios.
-- `src/types/`: contratos TypeScript compartidos.
-- `public/`: manifest, service worker y recursos locales.
+- `app/`: rutas, metadatos y estilos.
+- `src/components/`: interfaz y comportamiento.
+- `src/data/trip.ts`: viaje, cuatro días, siete paradas, avisos, alternativas y presupuesto.
+- `src/data/restaurants.ts`: treinta fichas de restaurantes, bodegas y compras.
+- `src/services/`: persistencia local y futuros adaptadores remotos.
+- `src/utils/`: cálculos puros de horario.
+- `content/`: documento fuente original.
 
-## Modelo de datos
+## Estado
 
-Se separan tres capas: contenido editorial (`Trip`, `Day`, `Stop`, `Restaurant`), estado del usuario (`UserState`) y datos remotos almacenados (`weatherCache`, `routeCache`). Los identificadores son estables y el estado nunca modifica los datos originales.
-
-## Decisiones técnicas
-
-- React + TypeScript sobre el starter Vinext/Vite de Sites.
-- Navegación SPA compatible con rutas directas de detalle.
-- Persistencia local versionada con recuperación ante datos corruptos.
-- Reordenación táctil con dnd-kit y alternativa accesible mediante botones.
-- Leaflet/OpenStreetMap cargados solo en cliente.
-- Service worker propio y manifest instalable.
-- Tokens CSS semánticos para tema claro/oscuro y safe areas de iPhone.
-
-## Offline
-
-El shell, los datos editoriales y los recursos locales se precachean. Las visitas, omisiones, notas, tareas, favoritos y preferencias permanecen en el dispositivo. El mapa degrada de forma segura cuando no hay red; no se descargan mosaicos masivamente.
+El contenido editorial es inmutable. El estado mutable del usuario —orden, visitas, omisiones, eliminaciones, notas, tareas y favoritos— se guarda en el dispositivo mediante una capa versionada y se normaliza cuando cambia la guía.
 
 ## Integraciones
 
-- OpenStreetMap/Leaflet: mapa interactivo.
-- OSRM: el adaptador queda previsto para rutas reales cuando existan coordenadas verificadas.
-- Open-Meteo: el adaptador queda previsto para previsiones reales cuando se definan fechas y ubicaciones definitivas.
+- Leaflet y OpenStreetMap: mapa interactivo.
+- OSRM: pendiente de activar para geometría real y caché de rutas.
+- Open-Meteo: pendiente de fechas concretas; la interfaz marca claramente la meteorología provisional.
+- Service worker: shell, datos y recursos locales disponibles sin conexión después de la primera carga.
 
-Durante esta fase los horarios usan tiempos de conducción de muestra y el tiempo meteorológico se marca como demostración; no se presenta como dato real.
+## Imágenes
 
-## Estrategia de imágenes
+Las portadas actuales son composiciones editoriales CSS rotuladas como provisionales. La tarjeta social original se conserva en `public/og.png`. Las fotografías finales deberán ser locales, optimizadas y documentadas en `IMAGE_CREDITS.md`.
 
-La UI usa composiciones editoriales locales de placeholder para evitar atribuir destinos incorrectos. Al recibir el HTML se seleccionarán imágenes reutilizables verificadas, se optimizarán y se documentarán en `IMAGE_CREDITS.md`.
+## Pendientes documentados
 
-## Riesgos y pendientes
-
-- Falta el HTML fuente definitivo, por lo que textos, enlaces, teléfonos, coordenadas y tiempos son ficticios.
-- OSRM y Open-Meteo no deben activarse con ubicaciones o fechas inventadas.
-- La instalación PWA en iOS depende de servir la aplicación mediante HTTPS.
-
-## Sustitución del contenido
-
-Cuando llegue el HTML: auditarlo completo, mapearlo a `src/data/trip.ts`, verificar coordenadas y enlaces, sustituir placeholders visuales, activar los adaptadores remotos y ampliar las pruebas de contenido.
+- Activar OSRM y Open-Meteo cuando se confirme la fecha del viaje.
+- Sustituir portadas provisionales por fotografías con licencia verificable.
+- Revalidar horarios, precios, días de cierre, teléfonos y coordenadas antes del viaje: la fuente los identifica como orientativos para la temporada 2026.

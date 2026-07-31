@@ -2,7 +2,7 @@
 
 PWA mobile-first para consultar y personalizar un viaje de cuatro días por Fenouillèdes y el país cátaro, con base en Cassagnes.
 
-> Esta primera versión usa contenido ficticio claramente señalado. El HTML definitivo será la fuente de verdad cuando se incorpore.
+El contenido procede de `content/Fenouilledes-paso-lento-DEFINITIVO.html`, conservado como fuente de verdad. La interfaz no incrusta ese documento: días, paradas, restaurantes y consejos están estructurados en TypeScript.
 
 ## Stack
 
@@ -54,16 +54,11 @@ public/               Manifest, service worker e iconos
 - **Coordenadas:** actualiza `coordinates.latitude` y `coordinates.longitude` tras verificarlas; no uses centros genéricos si existe una ubicación exacta.
 - **Enlaces:** guarda el enlace original en `googleMapsUrl`.
 
-Los componentes no contienen el contenido editorial, de modo que la importación del HTML definitivo se limita principalmente a esta capa de datos.
+Los componentes no contienen el contenido editorial. `src/data/trip.ts` conserva viaje, jornadas, paradas, consejos, alternativas y presupuesto; `src/data/restaurants.ts` conserva las treinta fichas de mesa y compra.
 
 ## Imágenes
 
-Las portadas actuales son placeholders CSS y están rotuladas como provisionales. Cuando llegue el contenido real:
-
-1. Selecciona una imagen correcta por día.
-2. Guárdala optimizada en `public/images/` (WebP o AVIF).
-3. Añade su ruta y texto alternativo al modelo de datos.
-4. Registra autor, fuente, URL y licencia en `IMAGE_CREDITS.md`.
+Inicio y las cabeceras de jornada usan fotografías reales de Galamus, Collioure, Carcasona y Villefranche-de-Conflent. Los archivos se sirven localmente desde `public/images/`; autoría, fuente y licencia están documentadas en `IMAGE_CREDITS.md`.
 
 ## PWA y funcionamiento offline
 
@@ -78,13 +73,21 @@ El estado del usuario se guarda en su dispositivo mediante la capa de `src/servi
 
 ## Despliegue
 
-El proyecto está preparado para Sites/Cloudflare. También puede adaptarse a Cloudflare Pages, Netlify o Vercel siempre que el hosting reescriba rutas desconocidas al shell de la aplicación para soportar `/dias/:dayId`.
+La aplicación se publica automáticamente en GitHub Pages mediante `.github/workflows/pages.yml` cada vez que se actualiza `main`. Para generar localmente el mismo artefacto:
+
+```bash
+npm run build:pages
+```
+
+El resultado queda en `dist-pages/`; también incluye `404.html` para que las rutas directas como `/dias/:dayId` vuelvan al shell de la aplicación.
+
+El proyecto también está preparado para Sites/Cloudflare, Netlify o Vercel siempre que el hosting reescriba rutas desconocidas al shell de la aplicación.
 
 Para Sites, genera primero el build y publica desde la integración de hosting. No requiere servidor propio, base de datos ni variables secretas.
 
 ## Limitaciones conocidas
 
-- Todo el contenido y todas las coordenadas son de demostración.
+- Las coordenadas son estáticas y deben volver a verificarse si cambia el destino de algún enlace de Google Maps.
 - OSRM y Open-Meteo permanecen desactivados intencionadamente hasta disponer de datos reales.
 - Los cambios locales no se sincronizan entre dispositivos.
 - El mapa base necesita red para mosaicos no visitados anteriormente.

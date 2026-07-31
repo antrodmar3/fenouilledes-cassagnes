@@ -22,6 +22,10 @@ export interface Stop {
   town: string;
   type: PlaceType;
   description: string;
+  details?: string[];
+  badge?: string;
+  entryPrice?: string;
+  originalStartTime?: string;
   estimatedVisitMinutes: number;
   travelMinutesFromPrevious: number;
   warning?: string;
@@ -37,6 +41,8 @@ export interface Day {
   distanceKm: number;
   drivingMinutes: number;
   walkingMinutes: number;
+  entryCost: string;
+  shortVersion: string;
   tone: "wine" | "gold" | "vine" | "slate";
   stopIds: string[];
   weatherLabel: string;
@@ -53,6 +59,9 @@ export interface Restaurant {
   description: string;
   mealType: string;
   schedule: string;
+  priceRange: string;
+  groupCapacity: string;
+  safetyNote?: string;
   phone?: string;
   websiteUrl?: string;
   googleMapsUrl: string;
@@ -66,6 +75,23 @@ export interface PracticalItem {
   text: string;
   dayId?: string;
   icon: string;
+}
+
+export interface GroupAdvice {
+  id: string;
+  kicker: string;
+  title: string;
+  text: string;
+}
+
+export interface BudgetRow {
+  label: string;
+  entries: string;
+  lunch: string;
+  dinner: string;
+  car: string;
+  person: string;
+  group: string;
 }
 
 export interface AlternativePlace {

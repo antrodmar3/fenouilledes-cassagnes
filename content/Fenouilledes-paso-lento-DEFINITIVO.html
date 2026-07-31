@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fenouillèdes a paso lento · 4 días desde Cassagnes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..600&family=Karla:ital,wght@0,300..700;1,400..600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --calcaire:#e9e5db; --calcaire-alt:#f1eee7;
+  --esquisto:#26292c; --esquisto-soft:#4b5257;
+  --granate:#7b1e2b; --oro:#c2901f; --vina:#4e6a52; --mar:#1c5b66;
+  --linea:rgba(38,41,44,.16); --linea-fina:rgba(38,41,44,.08);
+  --display:"Bodoni Moda","Didot","Times New Roman",serif;
+  --body:"Karla",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --gut:clamp(1.25rem,4vw,4rem); --maxw:1120px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0; background-color:var(--calcaire);
+  background-image:linear-gradient(to right,var(--linea-fina) 1px,transparent 1px),
+    linear-gradient(to bottom,var(--linea-fina) 1px,transparent 1px);
+  background-size:44px 44px;
+  color:var(--esquisto); font-family:var(--body);
+  font-size:clamp(1rem,.96rem + .18vw,1.08rem); line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gut)}
+h1,h2,h3,h4{font-family:var(--display);font-weight:600;line-height:1.02;margin:0;letter-spacing:-.01em}
+.eyebrow{font-family:var(--mono);font-size:.68rem;font-weight:500;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--granate);margin:0 0 .9rem;display:flex;align-items:center;gap:.7rem}
+.eyebrow::after{content:"";flex:1;height:1px;background:var(--linea);min-width:20px}
+p{margin:0 0 1rem}
+a{color:var(--granate)}
+:focus-visible{outline:2px solid var(--granate);outline-offset:3px;border-radius:2px}
+
+/* ---------------- portada ---------------- */
+.hero{position:relative;overflow:hidden;background:var(--esquisto);color:var(--calcaire-alt);isolation:isolate}
+.hero::before{content:"";position:absolute;inset:0;z-index:0;opacity:.5;
+  background:radial-gradient(ellipse 120% 80% at 20% 0%,rgba(78,106,82,.5),transparent 60%),
+    radial-gradient(ellipse 100% 70% at 90% 10%,rgba(194,144,31,.26),transparent 65%)}
+.hero-inner{position:relative;z-index:2;padding-block:clamp(3.5rem,9vw,7rem) clamp(9rem,20vw,13rem)}
+.hero .eyebrow{color:var(--oro)}
+.hero .eyebrow::after{background:rgba(233,229,219,.25)}
+.hero h1{font-size:clamp(3.1rem,13vw,9.5rem);font-weight:500;letter-spacing:-.035em;
+  line-height:.86;margin:0 0 1.6rem;text-wrap:balance}
+.hero h1 em{font-style:italic;font-weight:400;color:var(--oro)}
+.lede{font-family:var(--display);font-style:italic;font-weight:400;
+  font-size:clamp(1.2rem,1rem + 1.1vw,1.85rem);line-height:1.35;max-width:32ch;
+  color:rgba(233,229,219,.9);margin:0 0 2.2rem}
+.coords{display:flex;flex-wrap:wrap;gap:.55rem 1.4rem;font-family:var(--mono);font-size:.72rem;
+  letter-spacing:.13em;text-transform:uppercase;color:rgba(233,229,219,.62)}
+.coords span{white-space:nowrap}
+.coords b{color:var(--oro);font-weight:500}
+.ridge{position:absolute;left:0;right:0;bottom:-1px;z-index:1;width:100%;height:auto;display:block}
+
+/* ---------------- nav ---------------- */
+.nav{position:sticky;top:0;z-index:40;background:rgba(233,229,219,.93);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--linea)}
+.nav-inner{max-width:var(--maxw);margin-inline:auto;padding:.6rem var(--gut);
+  display:flex;gap:.35rem;align-items:center;overflow-x:auto;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav a{font-family:var(--mono);font-size:.7rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--esquisto-soft);text-decoration:none;white-space:nowrap;padding:.42rem .62rem;
+  border-radius:2px;transition:background .18s,color .18s}
+.nav a:hover{background:var(--esquisto);color:var(--calcaire-alt)}
+.nav .nav-mark{font-family:var(--display);font-size:.95rem;font-weight:600;margin-right:.7rem;
+  padding-right:.9rem;border-right:1px solid var(--linea);white-space:nowrap}
+
+/* ---------------- bandas ---------------- */
+.band{padding-block:clamp(3.2rem,8vw,5.5rem)}
+.band + .band{border-top:1px solid var(--linea)}
+.band--paper{background:var(--calcaire-alt)}
+.band--ink{background:var(--esquisto);color:var(--calcaire-alt)}
+.band--ink .eyebrow{color:var(--oro)}
+.band--ink .eyebrow::after{background:rgba(233,229,219,.22)}
+.band--ink a{color:var(--oro)}
+.section-title{font-size:clamp(1.9rem,1.3rem + 2.4vw,3.2rem);margin-bottom:1.1rem;text-wrap:balance}
+.section-intro{max-width:64ch;color:var(--esquisto-soft)}
+.band--ink .section-intro{color:rgba(233,229,219,.72)}
+
+/* ---------------- días ---------------- */
+.day{padding-block:clamp(3rem,7vw,5rem);border-top:1px solid var(--linea)}
+.day:nth-of-type(even){background:var(--calcaire-alt)}
+.day-head{display:grid;grid-template-columns:1fr;gap:.4rem 2rem;align-items:end;margin-bottom:1.6rem}
+@media (min-width:820px){.day-head{grid-template-columns:auto 1fr auto}}
+.day-num{font-family:var(--display);font-size:clamp(3.4rem,9vw,6rem);line-height:.8;
+  font-weight:500;color:var(--granate);letter-spacing:-.04em}
+.day-num small{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
+  display:block;color:var(--esquisto-soft);margin-bottom:.5rem;font-weight:500}
+.day-title{font-size:clamp(1.65rem,1.2rem + 1.8vw,2.6rem);text-wrap:balance}
+.day-title span{display:block;font-family:var(--mono);font-size:.68rem;font-weight:500;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--esquisto-soft);margin-bottom:.6rem}
+.day-meta{display:flex;gap:1.3rem;font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;
+  color:var(--esquisto-soft);white-space:nowrap}
+.day-meta b{display:block;font-size:1rem;font-weight:600;color:var(--esquisto);letter-spacing:0}
+
+/* ---------------- barra de jornada (elemento firma) ---------------- */
+.jornada{margin:0 0 2.2rem;padding:1rem 0 .3rem;border-top:1px solid var(--linea);
+  border-bottom:1px solid var(--linea)}
+.jornada svg{width:100%;height:auto;display:block;overflow:visible}
+.jb-lbl{font-family:var(--mono);font-size:10px;font-weight:500;fill:var(--esquisto-soft);letter-spacing:.06em}
+.jb-hr{font-family:var(--mono);font-size:9.5px;font-weight:500;fill:var(--esquisto-soft);letter-spacing:.05em}
+.jb-tick{stroke:var(--linea);stroke-width:1}
+.leyenda{display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;margin-top:1.6rem;
+  font-family:var(--mono);font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(233,229,219,.62)}
+.lg{display:flex;align-items:center;gap:.45rem}
+.lg i{width:16px;height:8px;border-radius:1px;display:block}
+
+/* ---------------- paradas ---------------- */
+.stops{display:grid;gap:0;margin:0;padding:0;list-style:none}
+.stop{display:grid;grid-template-columns:1fr;gap:.35rem 1.6rem;padding:1.6rem 0;
+  border-top:1px solid var(--linea-fina)}
+.stop:first-child{border-top:0;padding-top:.3rem}
+@media (min-width:760px){.stop{grid-template-columns:8.5rem 1fr}}
+.stop-when{font-family:var(--mono);font-size:.78rem;font-weight:600;color:var(--granate);padding-top:.15rem}
+.stop-when em{display:block;font-style:normal;font-weight:400;font-size:.66rem;
+  color:var(--esquisto-soft);letter-spacing:.06em;margin-top:.25rem}
+.stop-body h4{font-family:var(--display);font-size:1.3rem;font-weight:600;margin-bottom:.5rem;letter-spacing:0}
+.stop-body h4 .badge{font-family:var(--mono);font-size:.58rem;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--vina);border:1px solid currentColor;padding:.14rem .4rem;
+  border-radius:2px;margin-left:.6rem;vertical-align:.18em;white-space:nowrap}
+.stop-body p{margin-bottom:.6rem;max-width:66ch}
+.entrada{margin:.9rem 0 0}
+.maplink{font-family:var(--mono);font-size:.66rem;letter-spacing:.11em;text-transform:uppercase;
+  text-decoration:none;color:var(--esquisto-soft);border-bottom:1px solid var(--linea);
+  padding-bottom:.1rem;transition:color .18s,border-color .18s}
+.maplink:hover{color:var(--granate);border-color:var(--granate)}
+.maplink::before{content:"↗ "}
+
+/* ---------------- precio ---------------- */
+.price{display:inline-block;font-family:var(--mono);font-size:.68rem;font-weight:600;
+  letter-spacing:.06em;color:#7a5a12;background:rgba(194,144,31,.16);
+  border:1px solid rgba(194,144,31,.4);padding:.2rem .5rem;border-radius:2px;white-space:nowrap}
+.band--ink .price{color:var(--oro);background:rgba(194,144,31,.14);border-color:rgba(194,144,31,.38)}
+
+/* ---------------- avisos ---------------- */
+.note{margin-top:1rem;padding:.9rem 1.05rem;border-left:3px solid var(--oro);
+  background:rgba(194,144,31,.09);font-size:.9rem;line-height:1.55}
+.note strong{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;
+  display:block;margin-bottom:.3rem;color:#8a6410}
+.note--warn{border-left-color:var(--granate);background:rgba(123,30,43,.07)}
+.note--warn strong{color:var(--granate)}
+.band--ink .note{background:rgba(194,144,31,.14);color:rgba(233,229,219,.86)}
+.band--ink .note strong{color:var(--oro)}
+.band--ink .note--warn{background:rgba(210,162,168,.12);border-left-color:#d2a2a8}
+.band--ink .note--warn strong{color:#e2b3b8}
+
+/* ---------------- fichas de restaurante ---------------- */
+.tables{margin-top:2.4rem;padding-top:1.5rem;border-top:2px solid var(--esquisto)}
+.band--ink .tables{border-top-color:rgba(233,229,219,.45)}
+.tables + .tables{margin-top:2.8rem}
+.tables-head{display:flex;justify-content:space-between;align-items:baseline;gap:.6rem 1.4rem;
+  flex-wrap:wrap;margin-bottom:.3rem}
+.tables-head h3{font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--granate)}
+.tables-head span{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--esquisto-soft)}
+.band--ink .tables-head h3{color:var(--oro)}
+.band--ink .tables-head span{color:rgba(233,229,219,.5)}
+.tlist{list-style:none;margin:0;padding:0}
+.trow{display:grid;grid-template-columns:1fr;gap:.4rem 1.5rem;padding:1.2rem 0;
+  border-top:1px solid var(--linea-fina)}
+.band--ink .trow{border-top-color:rgba(233,229,219,.14)}
+@media (min-width:800px){.trow{grid-template-columns:4.6rem minmax(0,1fr) 9.5rem}}
+.trate{font-family:var(--mono);font-size:1.02rem;font-weight:600;color:#7a5a12;line-height:1.05;padding-top:.2rem}
+.band--ink .trate{color:var(--oro)}
+.trate em{display:block;font-style:normal;font-size:.58rem;font-weight:400;letter-spacing:.07em;
+  color:var(--esquisto-soft);margin-top:.25rem}
+.band--ink .trate em{color:rgba(233,229,219,.45)}
+.tinfo h4{font-family:var(--display);font-size:1.12rem;font-weight:600;letter-spacing:0;margin-bottom:.35rem}
+.tinfo h4 small{display:block;font-family:var(--mono);font-size:.61rem;font-weight:500;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--esquisto-soft);margin-top:.28rem}
+.band--ink .tinfo h4 small{color:rgba(233,229,219,.5)}
+.tinfo p{font-size:.9rem;margin-bottom:.45rem;max-width:62ch}
+.band--ink .tinfo p{color:rgba(233,229,219,.78)}
+.tflag{font-size:.86rem;padding:.5rem .7rem;margin:.55rem 0;border-left:2px solid var(--granate);
+  background:rgba(123,30,43,.06);max-width:62ch}
+.tflag b{font-family:var(--mono);font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--granate);margin-right:.4rem}
+.band--ink .tflag{border-left-color:#d2a2a8;background:rgba(210,162,168,.11);color:rgba(233,229,219,.85)}
+.band--ink .tflag b{color:#e2b3b8}
+.tmeta{font-family:var(--mono);font-size:.66rem;letter-spacing:.04em;color:var(--esquisto-soft);margin:0}
+.band--ink .tmeta{color:rgba(233,229,219,.5)}
+.tmeta a{color:var(--granate);text-decoration:none;border-bottom:1px solid var(--linea)}
+.band--ink .tmeta a{color:var(--oro);border-bottom-color:rgba(194,144,31,.4)}
+.tmeta b{font-weight:600;color:var(--granate)}
+.band--ink .tmeta b{color:var(--oro)}
+.tside{display:flex;flex-direction:row;flex-wrap:wrap;gap:.45rem;align-items:flex-start;padding-top:.25rem}
+@media (min-width:800px){.tside{flex-direction:column;align-items:flex-end}}
+.tag{font-family:var(--mono);font-size:.58rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--vina);border:1px solid currentColor;padding:.18rem .45rem;border-radius:2px;white-space:nowrap}
+.tag--cena{color:var(--granate)}
+.tag--capricho{color:#8a6410}
+.band--ink .tag{color:rgba(233,229,219,.6)}
+.band--ink .tag--cena{color:#d2a2a8}
+.band--ink .tag--capricho{color:var(--oro)}
+
+/* ---------------- sí / no ---------------- */
+.yesno{display:grid;grid-template-columns:1fr;gap:1px;background:rgba(233,229,219,.2);
+  margin-top:2.4rem;border:1px solid rgba(233,229,219,.2)}
+@media (min-width:820px){.yesno{grid-template-columns:1fr 1fr}}
+.yn{background:var(--esquisto);padding:1.6rem 1.5rem}
+.yn h3{font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.2em;
+  text-transform:uppercase;margin-bottom:1rem}
+.yn--si h3{color:#8fb894}
+.yn--no h3{color:#e2b3b8}
+.yn ul{margin:0;padding-left:1.1rem;font-size:.9rem;color:rgba(233,229,219,.82)}
+.yn li{margin-bottom:.6rem}
+.yn--si li::marker{color:#8fb894}
+.yn--no li::marker{color:#e2b3b8}
+
+/* ---------------- presupuesto ---------------- */
+.budget{width:100%;border-collapse:collapse;font-size:.92rem;margin-top:2rem}
+.budget caption{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;
+  text-align:left;color:var(--esquisto-soft);padding-bottom:.7rem}
+.budget th{font-family:var(--mono);font-weight:500;font-size:.6rem;letter-spacing:.14em;
+  text-transform:uppercase;text-align:right;color:var(--esquisto-soft);padding:.45rem .5rem;
+  border-bottom:1px solid var(--linea)}
+.budget th:first-child{text-align:left}
+.budget td{padding:.6rem .5rem;border-bottom:1px solid var(--linea-fina);text-align:right}
+.budget td:first-child{text-align:left;font-weight:600}
+.budget td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.86rem;color:var(--esquisto-soft)}
+.budget td.tot{color:#7a5a12;font-weight:600}
+.budget tfoot td{border-bottom:0;border-top:2px solid var(--esquisto);font-weight:600;padding-top:.8rem}
+.budget tbody tr:hover td{background:rgba(38,41,44,.03)}
+
+/* ---------------- tarjetas ---------------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:1px;
+  background:var(--linea);margin-top:2.5rem;border:1px solid var(--linea)}
+.card{background:var(--calcaire);padding:1.6rem 1.5rem}
+.band--paper .card{background:var(--calcaire-alt)}
+.card h3{font-size:1.15rem;margin-bottom:.55rem}
+.card .kicker{font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;
+  color:#8a6410;display:block;margin-bottom:.7rem}
+.card p{font-size:.9rem;color:var(--esquisto-soft);margin-bottom:0}
+
+/* ---------------- listas de extras ---------------- */
+.extras{display:grid;gap:0;margin-top:2.5rem;list-style:none;padding:0}
+.extra{display:grid;grid-template-columns:1fr;gap:.25rem 1.5rem;padding:1.2rem 0;
+  border-top:1px solid rgba(233,229,219,.14)}
+@media (min-width:740px){.extra{grid-template-columns:7rem 1fr}}
+.extra-km{font-family:var(--mono);font-size:.78rem;font-weight:600;color:var(--oro);padding-top:.15rem}
+.extra-km em{display:block;font-style:normal;font-size:.62rem;font-weight:400;
+  color:rgba(233,229,219,.5);margin-top:.25rem;letter-spacing:.05em}
+.extra h4{font-family:var(--display);font-size:1.1rem;margin-bottom:.25rem;letter-spacing:0}
+.extra p{font-size:.9rem;color:rgba(233,229,219,.7);margin:0;max-width:70ch}
+
+/* ---------------- pie ---------------- */
+.foot{padding-block:3rem 3.5rem;border-top:1px solid var(--linea);font-size:.85rem;color:var(--esquisto-soft)}
+.foot-grid{display:grid;grid-template-columns:1fr;gap:1.6rem}
+@media (min-width:760px){.foot-grid{grid-template-columns:1.4fr 1fr;align-items:end}}
+.foot .sig{font-family:var(--display);font-style:italic;font-size:1.3rem;color:var(--esquisto);margin-bottom:.4rem}
+.foot .data{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;line-height:1.9}
+
+/* ---------------- movimiento ---------------- */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .7s ease,transform .7s ease}
+.reveal.is-in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+
+/* ---------------- capacidad para el grupo ---------------- */
+.tcap{font-family:var(--mono);font-size:.57rem;font-weight:500;letter-spacing:.11em;
+  text-transform:uppercase;padding:.18rem .45rem;border-radius:2px;white-space:nowrap;
+  border:1px dashed currentColor}
+.cap--ok{color:var(--vina)}
+.cap--call{color:#8a6410}
+.cap--tight{color:var(--granate)}
+.band--ink .cap--ok{color:#8fb894}
+.band--ink .cap--call{color:var(--oro)}
+.band--ink .cap--tight{color:#d2a2a8}
+@media (min-width:800px){.trow{grid-template-columns:4.6rem minmax(0,1fr) 11rem}}
+.tside{gap:.4rem}
+.budget td.grp{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.82rem;
+  color:var(--esquisto-soft)}
+.budget th.grp{color:var(--granate)}
+.nine{font-family:var(--display);font-size:2.6rem;font-weight:600;color:var(--granate);
+  line-height:1;letter-spacing:-.03em;display:block;margin-bottom:.4rem}
+.band--ink .nine{color:var(--oro)}
+/* ---------------- impresión ---------------- */
+@media print{
+  body{background:#fff;font-size:10pt;background-image:none}
+  .nav,.ridge{display:none}
+  .hero{background:#fff;color:#000}
+  .hero::before{display:none}
+  .hero-inner{padding-block:0 1.5rem}
+  .hero h1{font-size:42pt;color:#000}
+  .hero h1 em,.hero .eyebrow{color:#7b1e2b}
+  .lede,.coords{color:#333}
+  .coords b{color:#7b1e2b}
+  .band--ink{background:#fff;color:#000}
+  .band--ink .section-intro,.extra p,.tinfo p,.yn ul{color:#333}
+  .band--ink .eyebrow,.band--ink .tables-head h3{color:#7b1e2b}
+  .yn{background:#fff;border:1px solid #ccc}
+  .yn--si h3,.yn--no h3{color:#000}
+  .extra,.trow{border-top-color:#ddd}
+  .extra-km,.trate,.band--ink .price{color:#7a5a12}
+  .leyenda{color:#333}
+  .day,.band,.trow,.stop,.extra,.card{break-inside:avoid;page-break-inside:avoid}
+  .day{border-top:1px solid #999}
+  .reveal{opacity:1;transform:none}
+  a{text-decoration:none}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap hero-inner">
+    <p class="eyebrow">Itinerario sin prisa · 4 días · nueve personas</p>
+    <h1>Fenouillèdes<br><em>a paso lento</em></h1>
+    <p class="lede">Cuatro días desde Cassagnes, pensados para que nadie tenga que apretar el paso.</p>
+    <div class="coords">
+      <span>Base · Cassagnes 66720</span>
+      <span>42°46′ N · 2°37′ E</span>
+      <span>Alt. 280 m</span>
+      <span><b>Un sitio al día · 3 mesas a elegir</b></span>
+    </div>
+  </div>
+  <svg class="ridge" viewBox="0 0 1440 220" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,180 L90,150 L150,162 L230,120 L300,138 L360,104 L430,126 L520,86 L560,96 L640,58 L700,80 L780,44 L840,66 L920,30 L980,58 L1060,26 L1140,62 L1220,38 L1300,74 L1380,54 L1440,86 L1440,220 L0,220 Z" fill="#e9e5db"/>
+    <path d="M0,196 L120,176 L210,190 L300,164 L400,182 L500,152 L600,176 L700,146 L800,170 L900,140 L1000,166 L1100,136 L1200,164 L1320,138 L1440,160 L1440,220 L0,220 Z" fill="#d9d4c8"/>
+  </svg>
+</header>
+
+<nav class="nav" aria-label="Secciones">
+  <div class="nav-inner">
+    <span class="nav-mark">Paso lento</span>
+    <a href="#plan">El criterio</a>
+    <a href="#grupo">Nueve</a>
+    <a href="#dia1">1 · Galamus</a>
+    <a href="#dia2">2 · Collioure</a>
+    <a href="#dia3">3 · Carcasona</a>
+    <a href="#dia4">4 · Tren</a>
+    <a href="#mesa">A la mesa</a>
+    <a href="#precios">Precios</a>
+    <a href="#notas">Notas</a>
+    <a href="#extras">Comodines</a>
+  </div>
+</nav>
+
+<!-- ==================== CRITERIOS ==================== -->
+<section class="band band--ink" id="plan">
+  <div class="wrap">
+    <p class="eyebrow">Cómo está pensado</p>
+    <h2 class="section-title">Un sitio al día, y la tarde libre</h2>
+    <p class="section-intro">Este no es el itinerario largo con menos paradas: está construido desde otro
+      criterio. Lo que manda no es cuántos castillos caben en cuatro días, sino el calor, el terreno, las
+      horas de coche y el hecho de ser nueve. Y la buena noticia es que la comarca aguanta perfectamente
+      este ritmo: los dos mejores planes de la zona —Collioure y el Tren Amarillo— son justamente los más
+      cómodos y los que menos obligan a andar.</p>
+
+    <ul class="extras">
+      <li class="extra"><span class="extra-km">Uno</span><div><h4>Un sitio grande al día, dos como máximo</h4><p>Y siempre por la mañana, que es cuando queda energía y no pega el sol. El segundo sitio, cuando lo hay, es corto, llano y opcional.</p></div></li>
+      <li class="extra"><span class="extra-km">Nueve</span><div><h4>Un grupo de nueve va más despacio</h4><p>Nueve personas tardan el doble en salir de casa, en aparcar, en pedir y en pagar. Contad hora y media larga de mesa y una hora de margen cada mañana. Por eso un solo sitio al día no es poco: es lo realista.</p></div></li>
+      <li class="extra"><span class="extra-km">Llano</span><div><h4>Nada de subidas</h4><p>Se caen Quéribus (quince minutos de escalones al sol), Peyrepertuse (dos horas y media sobre roca pulida) y los 734 escalones del Fort Libéria. No es poca pérdida, pero ninguno de los tres se disfruta con prisa ni con calor.</p></div></li>
+      <li class="extra"><span class="extra-km">Sombra</span><div><h4>La tarde no se toca</h4><p>De 15:00 a 18:00, casa. En julio y agosto esta comarca pasa de 35 °C y en las ruinas no hay una sombra: nada de lo que se ve a esa hora se disfruta. La siesta está dentro del plan, con su hueco marcado.</p></div></li>
+      <li class="extra"><span class="extra-km">Mesa</span><div><h4>La comida es una parada, no un trámite</h4><p>Sentados, con reserva y sin reloj, entre las 13:00 y las 14:45. Para cada día hay tres opciones de comida y tres de cena: se elige la víspera según el cuerpo y el tiempo.</p></div></li>
+      <li class="extra"><span class="extra-km">Salida</span><div><h4>Cada día tiene su versión corta</h4><p>Todos los días llevan escrito por dónde se cortan a mediodía sin sensación de haber perdido nada. Decidirlo por la mañana, no aguantando.</p></div></li>
+    </ul>
+
+    <div class="leyenda"><span class="lg"><i style="background:#7b1e2b"></i>Visita</span><span class="lg"><i style="background:#6b7075"></i>Coche</span><span class="lg"><i style="background:#c2901f"></i>Mesa</span><span class="lg"><i style="background:#4e6a52"></i>Descanso</span><span class="lg"><i style="background:#1c5b66"></i>Tren</span></div>
+  </div>
+</section>
+
+<!-- ==================== GRUPO ==================== -->
+<section class="band" id="grupo">
+  <div class="wrap">
+    <p class="eyebrow">Nueve a la mesa</p>
+    <h2 class="section-title">Lo que cambia cuando sois nueve</h2>
+    <p class="section-intro">Un grupo de nueve no es una familia grande: es un grupo, y en Francia se
+      trata como tal. Cambia la forma de reservar, de aparcar, de pedir y de pagar. Seis cosas que
+      conviene saber antes de coger el teléfono.</p>
+    <div class="cards">
+      <div class="card"><span class="kicker">Reservas</span><h3>Decid siempre que sois nueve</h3><p>No es un detalle: a partir de ocho, muchos restaurantes franceses piden <em>menu groupe</em> —carta reducida o menú único— para poder sacarlo todo a la vez. Reservad por teléfono, no por app, y con dos días en verano. Cada ficha de este plan lleva anotado si nueve entran sin problema, avisando o a duras penas.</p></div>
+      <div class="card"><span class="kicker">Dos coches</span><h3>Salid y aparcad juntos</h3><p>Con nueve vais en dos coches o en un monovolumen. En Galamus, Collioure y Carcasona no hay dos huecos seguidos: mejor un solo aparcamiento disuasorio y andar cinco minutos, que dar vueltas por separado. Fijad punto y hora de reencuentro antes de bajaros.</p></div>
+      <div class="card"><span class="kicker">Cuentas</span><h3>Efectivo y una cuenta sola</h3><p>Nueve cuentas separadas es una petición que en Francia recibe mala cara y a veces un no. Lo práctico: una cuenta y repartir después. Llevad efectivo: algunos sitios de la comarca no aceptan tarjeta.</p></div>
+      <div class="card"><span class="kicker">En casa</span><h3>Una noche de asador</h3><p>Con nueve personas, la cena más cómoda de la semana puede no ser en un restaurante. <strong>A La Broche 66</strong> prepara pollo o cochinillo a la brasa con patatas por encargo, y las pizzerías de Estagel y Saint-Paul hacen nueve pizzas de leña sin pestañear. Mesa en la terraza y nadie conduciendo.</p></div>
+      <div class="card"><span class="kicker">Arroz</span><h3>El plato que arregla una mesa larga</h3><p>Un arroz para todos resuelve el problema de nueve cartas distintas. <strong>La Picada</strong>, en Tautavel, hace paella y fideuà por encargo previo, y <strong>Le Pichenouille</strong>, en Maury, saca un tomahawk de kilo y medio para compartir y la cargolade si se avisa.</p></div>
+      <div class="card"><span class="kicker">Entradas</span><h3>Preguntad por tarifa de grupo</h3><p>En Carcasona, el petit train y el Château Comtal tienen precio reducido a partir de diez personas, así que os quedáis a uno. Aun así, preguntad: a veces cuentan los niños aparte y sale. En el Tren Amarillo, comprar los nueve billetes juntos y con antelación es obligatorio en la práctica.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== DÍA 1 ==================== -->
+<section class="day" id="dia1">
+  <div class="wrap">
+    <div class="day-head">
+      <div class="day-num"><small>Día</small>1</div>
+      <h2 class="day-title"><span>Fenouillèdes · 35 km</span>El cañón y la viña</h2>
+      <div class="day-meta">
+        <div>Coche<b>1 h 30</b></div><div>Andar<b>30–60 min</b></div><div>Entradas<b>5–11 €</b></div>
+      </div>
+    </div>
+    <figure class="jornada">
+      <svg viewBox="0 0 1000 58" role="img" aria-label="Reparto de la jornada: El cañón y la viña">
+        <rect x="71.4" y="16" width="47.9" height="21" fill="#6b7075" rx="1"/><rect x="119.3" y="16" width="118.6" height="21" fill="#7b1e2b" rx="1"/><text class="jb-lbl" x="178.6" y="11" text-anchor="middle">Galamus</text><rect x="237.9" y="16" width="35.7" height="21" fill="#6b7075" rx="1"/><rect x="273.6" y="16" width="71.4" height="21" fill="#7b1e2b" rx="1"/><rect x="357.1" y="16" width="125.0" height="21" fill="#c2901f" rx="1"/><text class="jb-lbl" x="419.6" y="11" text-anchor="middle">Comida</text><rect x="482.1" y="16" width="23.6" height="21" fill="#6b7075" rx="1"/><rect x="505.7" y="16" width="351.4" height="21" fill="#4e6a52" rx="1"/><text class="jb-lbl" x="681.4" y="11" text-anchor="middle">Casa · siesta · piscina</text><rect x="857.1" y="16" width="107.1" height="21" fill="#c2901f" rx="1"/><text class="jb-lbl" x="910.7" y="11" text-anchor="middle">Cena</text>
+        <line class="jb-tick" x1="71.4" y1="37" x2="71.4" y2="43"/><text class="jb-hr" x="71.4" y="53" text-anchor="middle">9:00</text><line class="jb-tick" x1="285.7" y1="37" x2="285.7" y2="43"/><text class="jb-hr" x="285.7" y="53" text-anchor="middle">12:00</text><line class="jb-tick" x1="500.0" y1="37" x2="500.0" y2="43"/><text class="jb-hr" x="500.0" y="53" text-anchor="middle">15:00</text><line class="jb-tick" x1="714.3" y1="37" x2="714.3" y2="43"/><text class="jb-hr" x="714.3" y="53" text-anchor="middle">18:00</text><line class="jb-tick" x1="928.6" y1="37" x2="928.6" y2="43"/><text class="jb-hr" x="928.6" y="53" text-anchor="middle">21:00</text>
+      </svg>
+    </figure>
+
+    <ol class="stops">
+      <li class="stop">
+        <div class="stop-when">09:40<em>35 min de coche</em></div>
+        <div class="stop-body">
+          <h4>Gorges de Galamus <span class="badge">Solo por la mañana</span></h4>
+          <p>Una grieta de caliza blanca de 500 m de profundidad con una carretera tallada en la pared. Desde el aparcamiento de arriba hay <strong>mirador inmediato</strong>, sin andar nada: eso ya justifica el viaje.</p>
+          <p>Si el día está fresco y apetece, la bajada a la <em>ermita de Saint-Antoine</em>, encajada en la roca, son diez minutos por pista de cemento, con la vuelta cuesta arriba. Cada uno decide allí mismo, que para eso el grupo es grande.</p>
+<p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Gorges+de+Galamus" target="_blank" rel="noopener">Abrir en el mapa</a></p><p class="entrada"><span class="price">Gratis · aparcamiento 5–6 €</span></p>          <div class="note note--warn"><strong>Lo que hay que saber</strong>Carretera de un solo carril con cortes de tráfico alternos en verano y aparcamiento muy limitado: con dos coches, id juntos y aparcad a la vez. Llegar antes de las 10:00 evita cola, calor y quedarse sin sitio.</div>
+
+        </div>
+      </li>
+      <li class="stop">
+        <div class="stop-when">11:50<em>30 min de coche</em></div>
+        <div class="stop-body">
+          <h4>Bodega en Maury <span class="badge">Llano y a la sombra</span></h4>
+          <p>Los bancales negros de pizarra donde se hace uno de los grandes vinos dulces de Francia. La visita es cómoda —patio, nave fresca, todo a nivel— y una cata para nueve se organiza sin problema si llamáis por la mañana.</p>
+          <p>Y para quien no beba hay algo mejor que agua: <strong>Domaine Fontanel embotella zumo de uva</strong> y en la comarca se encuentra mosto en cualquier bodega. Se pide sin complejos, que aquí es de lo más normal.</p>
+<p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Domaine+Fontanel+Tautavel" target="_blank" rel="noopener">Domaine Fontanel · 15 km</a></p><p class="entrada"><span class="price">Cata 0–5 € · botellas 8–20 €</span></p>
+        </div>
+      </li>
+    </ol>
+
+    <div class="tables">
+      <div class="tables-head"><h3>Comida · día 1</h3><span>Saint-Paul-de-Fenouillet, a 20 min de Galamus</span></div>
+      <ul class="tlist">
+      <li class="trow">
+        <div class="trate">4,5<em>568 op.</em></div>
+        <div class="tinfo">
+          <h4>Le Relais des Corbières · La Garrigue<small>Saint-Paul-de-Fenouillet</small></h4>
+          <p>La apuesta segura para el grupo: hotel-restaurante con <strong>aire acondicionado</strong> y un patio grande, menú del día que cambia, y clientela local fiel. Espacio de sobra para nueve y gente acostumbrada a servir mesas largas.</p>
+          <p class="tmeta"><a href="tel:+33468592389">+33 4 68 59 23 89</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">25–32 €</span>
+          <span class="tcap cap--call">Grupo de 9 · avisar</span>
+          <span class="tag">Comida</span>
+        </div>
+      </li>
+      <li class="trow">
+        <div class="trate">4,6<em>180 op.</em></div>
+        <div class="tinfo">
+          <h4>Mas Peyre Fils et Fille<small>Saint-Paul-de-Fenouillet</small></h4>
+          <p>Bodega familiar con mesa: cocina sencilla, generosa y de precio ridículo —principal, postre, vino y café por unos 21 €—, tienda de producto ecológico y una dueña que trata a todo el mundo como de la familia. Cierra a las 19:30, así que solo vale para comer.</p>
+          <p class="tmeta">Todos los días 9:30–19:30 · <a href="tel:+33618706224">+33 6 18 70 62 24</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">18–24 €</span>
+          <span class="tcap cap--call">Grupo de 9 · avisar</span>
+          <span class="tag">Comida</span>
+        </div>
+      </li>
+      <li class="trow">
+        <div class="trate">4,6<em>227 op.</em></div>
+        <div class="tinfo">
+          <h4>Brasserie Les Deux Moi Z'elles<small>Saint-Paul-de-Fenouillet</small></h4>
+          <p>Pizzas grandes de verdad —una da para dos— y postres que hacen ellas mismas. Horario amplísimo, ambiente de pueblo y precio bajo: la opción cómoda cuando nadie se pone de acuerdo.</p>
+          <p class="tmeta">Todos los días, mediodía y noche · <a href="tel:+33468505680">+33 4 68 50 56 80</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">15–22 €</span>
+          <span class="tcap cap--ok">Grupo de 9 · sí</span>
+          <span class="tag">Informal</span>
+        </div>
+      </li>
+      </ul>
+    </div>
+
+    <div class="tables">
+      <div class="tables-head"><h3>Cena · día 1</h3><span>a menos de veinte minutos de casa</span></div>
+      <ul class="tlist">
+      <li class="trow">
+        <div class="trate">4,7<em>452 op.</em></div>
+        <div class="tinfo">
+          <h4>Relais de Sceaury<small>Rasiguères · 8 km</small></h4>
+          <p>La mejor cocina cerca de casa: pescado con mejillones y verduras, entrecot con setas, patatas fritas cortadas a mano. Un pueblo de nada y un comedor pequeño, así que nueve hay que avisarlos con antelación.</p>
+          <p class="tmeta"><b>Cierra lunes y miércoles</b> · <a href="tel:+33468633342">+33 4 68 63 33 42</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">30–38 €</span>
+          <span class="tcap cap--call">Grupo de 9 · avisar</span>
+          <span class="tag tag--cena">Cena</span>
+        </div>
+      </li>
+      <li class="trow">
+        <div class="trate">4,4<em>345 op.</em></div>
+        <div class="tinfo">
+          <h4>Le Pichenouille<small>Maury · 7 km</small></h4>
+          <p>Parrilla catalana detrás de una fachada discreta, y probablemente el mejor plan de grupo del valle: mejillones gratinados, <strong>tomahawk de 1,5 kg para compartir</strong> y la <em>cargolade</em> por encargo. Raciones nada pequeñas.</p>
+          <p class="tflag"><b>Embarazo</b> el alioli de la casa lleva huevo crudo. Pedidlo industrial o cambiadlo por mantequilla de hierbas; la carne a la brasa no tiene ningún problema.</p><p class="tmeta">Todos los días · encargad la cargolade al reservar · <a href="tel:+33670018147">+33 6 70 01 81 47</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">30–40 €</span>
+          <span class="tcap cap--ok">Grupo de 9 · sí</span>
+          <span class="tag tag--cena">Cena</span>
+        </div>
+      </li>
+      <li class="trow">
+        <div class="trate">4,5<em>160 op.</em></div>
+        <div class="tinfo">
+          <h4>Au Comptoir de Triniach<small>Latour-de-France · 6 km</small></h4>
+          <p>Tapas, entrecot con salsa de setas y patatas como deben ser, bajo una pérgola con nebulizadores para el calor. Abre todos los días desde las 9:00. El servicio es tranquilo: con nueve, no vayáis con prisa.</p>
+          <p class="tmeta">Todos los días 9:00–22:00 · <a href="tel:+33955310593">+33 9 55 31 05 93</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">20–28 €</span>
+          <span class="tcap cap--ok">Grupo de 9 · sí</span>
+          <span class="tag tag--cena">Cena</span>
+        </div>
+      </li>
+      </ul>
+    </div>
+
+    <div class="note" style="margin-top:2.2rem">
+      <strong>Versión corta</strong>Con el mirador de Galamus y la bodega ya está el día hecho. Si el calor aprieta o el cuerpo no acompaña, se salta la ermita y se come en Saint-Paul: sigue siendo una mañana redonda y son solo 35 km.
+    </div>
+  </div>
+</section>
+
+<!-- ==================== DÍA 2 ==================== -->
+<section class="day" id="dia2">
+  <div class="wrap">
+    <div class="day-head">
+      <div class="day-num"><small>Día</small>2</div>
+      <h2 class="day-title"><span>Côte Vermeille · 125 km</span>El mar, que es el mejor aire acondicionado</h2>
+      <div class="day-meta">
+        <div>Coche<b>2 h 25</b></div><div>Andar<b>1 h 30</b></div><div>Entradas<b>0–8 €</b></div>
+      </div>
+    </div>
+    <figure class="jornada">
+      <svg viewBox="0 0 1000 58" role="img" aria-label="Reparto de la jornada: El mar, que es el mejor aire acondicionado">
+        <rect x="107.1" y="16" width="83.6" height="21" fill="#6b7075" rx="1"/><text class="jb-lbl" x="148.9" y="11" text-anchor="middle">Coche</text><rect x="190.7" y="16" width="166.4" height="21" fill="#7b1e2b" rx="1"/><text class="jb-lbl" x="273.9" y="11" text-anchor="middle">Collioure</text><rect x="357.1" y="16" width="125.0" height="21" fill="#c2901f" rx="1"/><text class="jb-lbl" x="419.6" y="11" text-anchor="middle">Comida</text><rect x="482.1" y="16" width="17.9" height="21" fill="#6b7075" rx="1"/><rect x="500.0" y="16" width="160.7" height="21" fill="#1c5b66" rx="1"/><text class="jb-lbl" x="580.4" y="11" text-anchor="middle">Paulilles · baño y sombra</text><rect x="660.7" y="16" width="89.3" height="21" fill="#6b7075" rx="1"/><text class="jb-lbl" x="705.4" y="11" text-anchor="middle">Coche</text><rect x="821.4" y="16" width="107.1" height="21" fill="#c2901f" rx="1"/><text class="jb-lbl" x="875.0" y="11" text-anchor="middle">Cena</text>
+        <line class="jb-tick" x1="71.4" y1="37" x2="71.4" y2="43"/><text class="jb-hr" x="71.4" y="53" text-anchor="middle">9:00</text><line class="jb-tick" x1="285.7" y1="37" x2="285.7" y2="43"/><text class="jb-hr" x="285.7" y="53" text-anchor="middle">12:00</text><line class="jb-tick" x1="500.0" y1="37" x2="500.0" y2="43"/><text class="jb-hr" x="500.0" y="53" text-anchor="middle">15:00</text><line class="jb-tick" x1="714.3" y1="37" x2="714.3" y2="43"/><text class="jb-hr" x="714.3" y="53" text-anchor="middle">18:00</text><line class="jb-tick" x1="928.6" y1="37" x2="928.6" y2="43"/><text class="jb-hr" x="928.6" y="53" text-anchor="middle">21:00</text>
+      </svg>
+    </figure>
+
+    <ol class="stops">
+      <li class="stop">
+        <div class="stop-when">10:40<em>1 h 10 de coche</em></div>
+        <div class="stop-body">
+          <h4>Collioure <span class="badge">El día más cómodo</span></h4>
+          <p>La bahía que inventó el fauvismo, y el sitio más agradable de la comarca para andar poco y ver mucho: <strong>todo es llano</strong>, hay sombra en las calles del Mouré y una brisa de mar que quita diez grados a la sensación de calor.</p>
+          <p>El plan mínimo: el paseo del puerto, el campanario de <strong>Notre-Dame-des-Anges</strong> —que fue faro antes que iglesia— y el <em>Chemin du Fauvisme</em>, que coloca reproducciones de Matisse y Derain en el punto exacto donde pintaron. Se hace sentándose cada dos cuadros, y con un grupo grande funciona mejor si os separáis y quedáis en un café a una hora fija.</p>
+<p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Collioure" target="_blank" rel="noopener">Abrir en el mapa</a></p><p class="entrada"><span class="price">Pueblo gratis · Château Royal 6–8 €</span></p>          <div class="note"><strong>Aparcamiento con dos coches</strong>Los del puerto se llenan antes de las 10:30 y no vais a encontrar dos huecos juntos. Id directos al disuasorio de la entrada del pueblo y usad la lanzadera.</div>
+
+        </div>
+      </li>
+      <li class="stop">
+        <div class="stop-when">15:00<em>15 min de coche</em></div>
+        <div class="stop-body">
+          <h4>Anse de Paulilles <span class="badge">Sombra y agua</span></h4>
+          <p>Una antigua fábrica de dinamita reconvertida en parque litoral: tres calas de guijarros, jardín mediterráneo, pinos y bancos. Mucho más tranquila que las playas del pueblo, con acceso llano y sitio de sobra para plantar nueve toallas.</p>
+          <p>El agua en verano ronda los 24 °C, así que un baño largo es la mejor manera de bajar la temperatura del cuerpo sin pasar frío. Aquí acaba el día.</p>
+<p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Anse+de+Paulilles" target="_blank" rel="noopener">Abrir en el mapa</a></p><p class="entrada"><span class="price">Gratis · aparcamiento 4–6 €</span></p>
+        </div>
+      </li>
+    </ol>
+
+    <div class="tables">
+      <div class="tables-head"><h3>Comida · día 2</h3><span>Collioure y Port-Vendres</span></div>
+      <ul class="tlist">
+      <li class="trow">
+        <div class="trate">4,4<em>3.093 op.</em></div>
+        <div class="tinfo">
+          <h4>Le Jardin de Collioure<small>Collioure</small></h4>
+          <p>Grande, con jardín, <strong>zona de juegos para niños</strong> y abierto todos los días: es el que mejor absorbe un grupo de nueve sin dividirlo. Cocina catalana de carta amplia —caracoles, pescado entero, entrecot— y servicio acostumbrado al volumen.</p>
+          <p class="tmeta">Todos los días · <a href="tel:+33468951252">+33 4 68 95 12 52</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">30–40 €</span>
+          <span class="tcap cap--ok">Grupo de 9 · sí</span>
+          <span class="tag">Comida</span>
+        </div>
+      </li>
+      <li class="trow">
+        <div class="trate">4,7<em>396 op.</em></div>
+        <div class="tinfo">
+          <h4>Restaurant Mengem<small>Port-Vendres</small></h4>
+          <p>Menú diario según lo que ha entrado en la lonja esa mañana, la mejor vista del puerto y un equipo que atiende de maravilla en francés, inglés y español. Cinco minutos en coche y la mitad de gente que en Collioure.</p>
+          <p class="tflag"><b>Embarazo</b> pedid el pescado hecho, no crudo ni marinado. A la plancha o al horno, sin discusión.</p><p class="tmeta">Cierra martes · <a href="tel:+33788860033">+33 7 88 86 00 33</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">30–35 €</span>
+          <span class="tcap cap--call">Grupo de 9 · avisar</span>
+          <span class="tag">Comida</span>
+        </div>
+      </li>
+      <li class="trow">
+        <div class="trate">4,2<em>913 op.</em></div>
+        <div class="tinfo">
+          <h4>L'Imprévu<small>Plage de l'Ouille · Collioure</small></h4>
+          <p>A pie de una cala escondida, con la comida en bañador y los niños jugando al lado. Abierto de 10:00 a 22:00 todos los días. Se reserva por SMS al número de su web, y con nueve conviene hacerlo: es pequeño de mesas y muy solicitado.</p>
+          <p class="tmeta">Todos los días 10:00–22:00 · reserva por SMS · <a href="tel:+33663298669">+33 6 63 29 86 69</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">28–38 €</span>
+          <span class="tcap cap--call">Grupo de 9 · avisar</span>
+          <span class="tag">Comida</span>
+        </div>
+      </li>
+      </ul>
+    </div>
+
+    <div class="tables">
+      <div class="tables-head"><h3>Cena · día 2</h3><span>en la costa o de vuelta a casa</span></div>
+      <ul class="tlist">
+      <li class="trow">
+        <div class="trate">4,6<em>2.492 op.</em></div>
+        <div class="tinfo">
+          <h4>Restaurant Le Neptune<small>Collioure</small></h4>
+          <p>Terraza sobre el mar con vistas al puerto y al campanario, carta larga, tronas para los pequeños y capacidad de sobra. La cena bonita del viaje sin entrar en precios de estrella.</p>
+          <p class="tmeta">Cierra lunes · reservar</p>
+        </div>
+        <div class="tside">
+          <span class="price">35–45 €</span>
+          <span class="tcap cap--ok">Grupo de 9 · sí</span>
+          <span class="tag tag--cena">Cena</span>
+        </div>
+      </li>
+      <li class="trow">
+        <div class="trate">4,8<em>608 op.</em></div>
+        <div class="tinfo">
+          <h4>La Bodeguita<small>Collioure</small></h4>
+          <p>La mejor cocina del pueblo por su precio: vieiras, cordero rosado, solomillo con salsa de banyuls. El problema es el tamaño —es diminuto—, así que con nueve o vais en dos mesas o lo dejáis para otro viaje.</p>
+          <p class="tflag"><b>Embarazo</b> en la carta hay ceviche y tartar; hay diez platos más. La carne, al punto o hecha.</p><p class="tmeta">Todos los días · <a href="tel:+33624629750">+33 6 24 62 97 50</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">35–45 €</span>
+          <span class="tcap cap--tight">Grupo de 9 · justo</span>
+          <span class="tag tag--cena">Cena</span>
+        </div>
+      </li>
+      <li class="trow">
+        <div class="trate">4,8<em>1.657 op.</em></div>
+        <div class="tinfo">
+          <h4>Restaurant La Balette<small>Collioure</small></h4>
+          <p>Terraza sobre la bahía y cocina catalana de altura reconocida por la guía Michelin. Para nueve personas hay que llamar con semanas, y probablemente os pongan un menú único. Caro y memorable.</p>
+          <p class="tmeta">Cierra lunes y martes · <a href="tel:+33468820507">+33 4 68 82 05 07</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">70–95 €</span>
+          <span class="tcap cap--call">Grupo de 9 · avisar</span>
+          <span class="tag tag--capricho">Capricho</span>
+        </div>
+      </li>
+      </ul>
+    </div>
+
+    <div class="note" style="margin-top:2.2rem">
+      <strong>Versión corta</strong>Collioure sola ya es un día completo. Si a las 14:00 se ha terminado la cuerda, se come en Port-Vendres y se vuelve a casa: Paulilles no se va a mover de sitio.
+    </div>
+  </div>
+</section>
+
+<!-- ==================== DÍA 3 ==================== -->
+<section class="day" id="dia3">
+  <div class="wrap">
+    <div class="day-head">
+      <div class="day-num"><small>Día</small>3</div>
+      <h2 class="day-title"><span>Aude · 200 km</span>Carcasona, y nada más</h2>
+      <div class="day-meta">
+        <div>Coche<b>2 h 45</b></div><div>Andar<b>1 h 30</b></div><div>Entradas<b>8–23 €</b></div>
+      </div>
+    </div>
+    <figure class="jornada">
+      <svg viewBox="0 0 1000 58" role="img" aria-label="Reparto de la jornada: Carcasona, y nada más">
+        <rect x="107.1" y="16" width="95.0" height="21" fill="#6b7075" rx="1"/><text class="jb-lbl" x="154.6" y="11" text-anchor="middle">Coche</text><rect x="202.1" y="16" width="172.9" height="21" fill="#7b1e2b" rx="1"/><text class="jb-lbl" x="288.6" y="11" text-anchor="middle">Cité de Carcassonne</text><rect x="375.0" y="16" width="125.0" height="21" fill="#c2901f" rx="1"/><text class="jb-lbl" x="437.5" y="11" text-anchor="middle">Comida</text><rect x="500.0" y="16" width="53.6" height="21" fill="#7b1e2b" rx="1"/><rect x="553.6" y="16" width="101.4" height="21" fill="#6b7075" rx="1"/><text class="jb-lbl" x="604.3" y="11" text-anchor="middle">Coche</text><rect x="655.0" y="16" width="202.1" height="21" fill="#4e6a52" rx="1"/><text class="jb-lbl" x="756.1" y="11" text-anchor="middle">Casa</text><rect x="857.1" y="16" width="107.1" height="21" fill="#c2901f" rx="1"/><text class="jb-lbl" x="910.7" y="11" text-anchor="middle">Cena</text>
+        <line class="jb-tick" x1="71.4" y1="37" x2="71.4" y2="43"/><text class="jb-hr" x="71.4" y="53" text-anchor="middle">9:00</text><line class="jb-tick" x1="285.7" y1="37" x2="285.7" y2="43"/><text class="jb-hr" x="285.7" y="53" text-anchor="middle">12:00</text><line class="jb-tick" x1="500.0" y1="37" x2="500.0" y2="43"/><text class="jb-hr" x="500.0" y="53" text-anchor="middle">15:00</text><line class="jb-tick" x1="714.3" y1="37" x2="714.3" y2="43"/><text class="jb-hr" x="714.3" y="53" text-anchor="middle">18:00</text><line class="jb-tick" x1="928.6" y1="37" x2="928.6" y2="43"/><text class="jb-hr" x="928.6" y="53" text-anchor="middle">21:00</text>
+      </svg>
+    </figure>
+
+    <ol class="stops">
+      <li class="stop">
+        <div class="stop-when">10:50<em>1 h 20 de coche</em></div>
+        <div class="stop-body">
+          <h4>Cité de Carcassonne <span class="badge">El único sitio del día</span></h4>
+          <p>La ciudad medieval fortificada más grande de Europa: doble muralla, 52 torres y ese perfil de tejados cónicos que Viollet-le-Duc inventó en el siglo XIX y que ya nadie le discute. El efecto al aparecer en la curva de la carretera es de los que se recuerdan.</p>
+          <p><strong>Un consejo que cambia el día:</strong> olvidad el truco de aparcar abajo en el Pont Vieux y subir andando. Id al aparcamiento de arriba, junto a la puerta Narbonnaise, aunque cueste más por coche: os ahorra quince minutos de rampa empedrada al sol.</p>
+          <p>Dentro se recorre en llano. El <strong>petit train</strong> da la vuelta al recinto sentados en veinte minutos y con nueve sale bien de precio; el paseo de ronda por lo alto de la muralla y las escaleras del Château Comtal, en cambio, se pueden dejar para otro viaje. La <strong>basílica de Saint-Nazaire</strong> sí merece diez minutos: es llana, está fresca y tiene las mejores vidrieras góticas del sur de Francia.</p>
+<p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Cité+de+Carcassonne" target="_blank" rel="noopener">Abrir en el mapa</a></p><p class="entrada"><span class="price">Calles gratis · petit train 8–9 € · Château Comtal 13 € · aparcamiento 6–10 € por coche</span></p>          <div class="note note--warn"><strong>Empedrado</strong>El suelo de la Cité son cantos rodados irregulares. Con calzado plano y suela ancha no hay problema; con sandalia fina, sí. Es el terreno más incómodo de los cuatro días.</div>
+
+        </div>
+      </li>
+    </ol>
+
+    <div class="tables">
+      <div class="tables-head"><h3>Comida · día 3</h3><span>la ville basse, cruzando el Pont Vieux</span></div>
+      <ul class="tlist">
+      <li class="trow">
+        <div class="trate">4,3<em>3.502 op.</em></div>
+        <div class="tinfo">
+          <h4>Brasserie à 4 Temps<small>Carcasona · Bd Barbès</small></h4>
+          <p>La opción evidente para nueve: terraza enorme con mesas a la sombra, abierta de 7:00 a 23:00 todos los días, menú del día que cambia constantemente y un cassoulet solvente. Es popular, así que reservad.</p>
+          <p class="tmeta">Todos los días 7:00–23:00 · <a href="tel:+33468114444">+33 4 68 11 44 44</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">22–30 €</span>
+          <span class="tcap cap--ok">Grupo de 9 · sí</span>
+          <span class="tag">Comida</span>
+        </div>
+      </li>
+      <li class="trow">
+        <div class="trate">4,4<em>1.164 op.</em></div>
+        <div class="tinfo">
+          <h4>Brasserie Café Lucien<small>Carcasona · Rue du Grand Puits</small></h4>
+          <p>Brasserie clásica de raciones generosas —cassoulet, confit, ensaladas grandes— con un servicio notablemente atento: gestionan alergias sin dramas y guardan la mesa si os retrasáis, que con nueve pasa.</p>
+          <p class="tmeta">Todos los días · <a href="tel:+33468269440">+33 4 68 26 94 40</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">20–28 €</span>
+          <span class="tcap cap--ok">Grupo de 9 · sí</span>
+          <span class="tag">Comida</span>
+        </div>
+      </li>
+      <li class="trow">
+        <div class="trate">4,8<em>418 op.</em></div>
+        <div class="tinfo">
+          <h4>Enfants Terribles<small>Carcasona · place Carnot</small></h4>
+          <p>La mejor cocina de las tres, italo-mediterránea y muy fina: burrata, raviolis de gamba, tiramisú de limón. Es pequeño y está en la plaza más solicitada, así que con nueve hay que llamar con días.</p>
+          <p class="tflag"><b>Embarazo</b> la burrata y la mozzarella de restaurante suelen ser pasteurizadas, pero se pregunta y punto: «<em>au lait pasteurisé ?</em>».</p><p class="tmeta">Todos los días · <a href="tel:+33601969349">+33 6 01 96 93 49</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">25–30 €</span>
+          <span class="tcap cap--call">Grupo de 9 · avisar</span>
+          <span class="tag">Comida</span>
+        </div>
+      </li>
+      </ul>
+    </div>
+
+    <div class="tables">
+      <div class="tables-head"><h3>Cena · día 3</h3><span>de vuelta, sin cocinar</span></div>
+      <ul class="tlist">
+      <li class="trow">
+        <div class="trate">4,7<em>114 op.</em></div>
+        <div class="tinfo">
+          <h4>La Guinguette du Camping<small>Latour-de-France · 6 km</small></h4>
+          <p>Brasa de leña al aire libre en el camping del pueblo, tapas generosas y mesas largas de madera: hecho para un grupo. No hay que estar alojado allí. El plan más informal y probablemente el más divertido de la semana.</p>
+          <p class="tmeta">Todos los días · <a href="tel:+33788121148">+33 7 88 12 11 48</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">15–22 €</span>
+          <span class="tcap cap--ok">Grupo de 9 · sí</span>
+          <span class="tag tag--cena">Cena</span>
+        </div>
+      </li>
+      <li class="trow">
+        <div class="trate">4,9<em>130 op.</em></div>
+        <div class="tinfo">
+          <h4>A La Broche 66 · para llevar a casa<small>Cases-de-Pène · 20 km</small></h4>
+          <p>Maestro asador y catering: pollo y cochinillo a la brasa de carbón con patatas asadas y salsas propias, por encargo. Montan banquetes de más de cien personas, así que nueve les hace gracia. Se recoge por la tarde y se cena en la terraza de casa.</p>
+          <p class="tmeta">Lunes a viernes 9:00–17:00 · encargar el día antes · <a href="tel:+33651025184">+33 6 51 02 51 84</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">12–20 €</span>
+          <span class="tcap cap--ok">Grupo de 9 · sí</span>
+          <span class="tag">En casa</span>
+        </div>
+      </li>
+      <li class="trow">
+        <div class="trate">4,5<em>372 op.</em></div>
+        <div class="tinfo">
+          <h4>Le Ptit Chapitre<small>Saint-Paul-de-Fenouillet · 20 km</small></h4>
+          <p>En la plaza del pueblo, con aparcamiento público al lado. Carta corta pero muy cuidada y precio contenido para el nivel. Abre todos los días de 9:00 a 21:00.</p>
+          <p class="tflag"><b>Embarazo</b> el tartar de salmón de la carta, no. La dorada al horno, sí.</p><p class="tmeta">Todos los días 9:00–21:00 · <a href="tel:+33986215110">+33 9 86 21 51 10</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">22–30 €</span>
+          <span class="tcap cap--call">Grupo de 9 · avisar</span>
+          <span class="tag tag--cena">Cena</span>
+        </div>
+      </li>
+      </ul>
+    </div>
+
+    <div class="note" style="margin-top:2.2rem">
+      <strong>Versión corta</strong>Es el día más largo en coche y el único que se puede cancelar sin dolor. Si no apetece conducir 200 km con dos coches, cambiadlo por <strong>Perpiñán</strong> (32 km, llano, sombra y mercado) y quedaos con dos horas más de tarde.
+    </div>
+  </div>
+</section>
+
+<!-- ==================== DÍA 4 ==================== -->
+<section class="day" id="dia4">
+  <div class="wrap">
+    <div class="day-head">
+      <div class="day-num"><small>Día</small>4</div>
+      <h2 class="day-title"><span>Conflent · 120 km y tren</span>Subir a 1.600 m sentados</h2>
+      <div class="day-meta">
+        <div>Coche<b>2 h 10</b></div><div>Andar<b>45 min</b></div><div>Entradas<b>20–32 €</b></div>
+      </div>
+    </div>
+    <figure class="jornada">
+      <svg viewBox="0 0 1000 58" role="img" aria-label="Reparto de la jornada: Subir a 1.600 m sentados">
+        <rect x="89.3" y="16" width="77.1" height="21" fill="#6b7075" rx="1"/><text class="jb-lbl" x="127.9" y="11" text-anchor="middle">Coche</text><rect x="166.4" y="16" width="101.4" height="21" fill="#7b1e2b" rx="1"/><text class="jb-lbl" x="217.1" y="11" text-anchor="middle">Villefranche</text><rect x="285.7" y="16" width="71.4" height="21" fill="#1c5b66" rx="1"/><rect x="357.1" y="16" width="125.0" height="21" fill="#c2901f" rx="1"/><text class="jb-lbl" x="419.6" y="11" text-anchor="middle">Comida arriba</text><rect x="500.0" y="16" width="71.4" height="21" fill="#1c5b66" rx="1"/><rect x="589.3" y="16" width="77.1" height="21" fill="#6b7075" rx="1"/><text class="jb-lbl" x="627.9" y="11" text-anchor="middle">Coche</text><rect x="666.4" y="16" width="190.7" height="21" fill="#4e6a52" rx="1"/><text class="jb-lbl" x="761.8" y="11" text-anchor="middle">Casa</text><rect x="857.1" y="16" width="107.1" height="21" fill="#c2901f" rx="1"/><text class="jb-lbl" x="910.7" y="11" text-anchor="middle">Cena</text>
+        <line class="jb-tick" x1="71.4" y1="37" x2="71.4" y2="43"/><text class="jb-hr" x="71.4" y="53" text-anchor="middle">9:00</text><line class="jb-tick" x1="285.7" y1="37" x2="285.7" y2="43"/><text class="jb-hr" x="285.7" y="53" text-anchor="middle">12:00</text><line class="jb-tick" x1="500.0" y1="37" x2="500.0" y2="43"/><text class="jb-hr" x="500.0" y="53" text-anchor="middle">15:00</text><line class="jb-tick" x1="714.3" y1="37" x2="714.3" y2="43"/><text class="jb-hr" x="714.3" y="53" text-anchor="middle">18:00</text><line class="jb-tick" x1="928.6" y1="37" x2="928.6" y2="43"/><text class="jb-hr" x="928.6" y="53" text-anchor="middle">21:00</text>
+      </svg>
+    </figure>
+
+    <ol class="stops">
+      <li class="stop">
+        <div class="stop-when">10:20<em>1 h 05 de coche</em></div>
+        <div class="stop-body">
+          <h4>Villefranche-de-Conflent <span class="badge">Llano y corto</span></h4>
+          <p>Un pueblo entero encajado entre dos gargantas, con murallas que Vauban reforzó en el siglo XVII y que están inscritas por la Unesco. Se ve en una hora larga: la calle mayor en llano, las tiendas de artesanos y un café en la plaza mientras llega la hora del tren.</p>
+          <p>El camino de ronda por dentro de la muralla y, sobre todo, los <strong>734 escalones subterráneos</strong> que suben al Fort Libéria quedan fuera del plan. No es una renuncia grande: lo bueno de hoy viene en tren.</p>
+<p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Villefranche-de-Conflent" target="_blank" rel="noopener">Abrir en el mapa</a></p><p class="entrada"><span class="price">Pueblo gratis · murallas 5–7 €</span></p>
+        </div>
+      </li>
+      <li class="stop">
+        <div class="stop-when">12:00<em>unas 4 h en total</em></div>
+        <div class="stop-body">
+          <h4>Le Train Jaune <span class="badge">La joya del viaje</span></h4>
+          <p>El tren de vía métrica más bonito de Francia, en servicio desde 1910, con vagones amarillos y rojos y una plataforma descubierta en la que se viaja al aire libre. En una hora sube de 435 a más de 1.500 m colgado de la ladera, cruza el <strong>viaducto Séjourné</strong> y el <strong>puente Gisclard</strong>, el único puente ferroviario colgante en uso del país.</p>
+          <p>Es, con diferencia, <strong>el mejor plan de los cuatro días</strong>: todo el espectáculo se ve sentados, sin un solo escalón y con aire en la cara. Subid a <strong>Mont-Louis-La Cabanasse</strong>, comed arriba en la plaza fuerte y bajad con calma.</p>
+<p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Gare+de+Villefranche-Vernet-les-Bains" target="_blank" rel="noopener">Abrir en el mapa</a></p><p class="entrada"><span class="price">20–25 € ida y vuelta</span></p>          <div class="note note--warn"><strong>Con nueve, esto se prepara</strong>Hay pocas salidas al día, cambian según la temporada y a veces se sustituyen tramos por autobús. Comprad los nueve billetes con antelación en la web de la SNCF, porque la plataforma descubierta tiene plazas contadas y es lo que hace especial el viaje. Preguntad también si el tren lleva aseo. Arriba hace 10–15 °C menos: chaqueta en la mochila.</div>
+
+        </div>
+      </li>
+    </ol>
+
+    <div class="tables">
+      <div class="tables-head"><h3>Comida · día 4</h3><span>arriba en la montaña o abajo en el pueblo</span></div>
+      <ul class="tlist">
+      <li class="trow">
+        <div class="trate">4,7<em>1.835 op.</em></div>
+        <div class="tinfo">
+          <h4>Le Patio<small>Villefranche-de-Conflent</small></h4>
+          <p>Dentro de la muralla, con sala amplia —de los pocos sitios del pueblo donde nueve entran sin milagros— y el «menú del Tren Amarillo» a unos 20–22 €: sopa, costillas caramelizadas, postre. Cartas en español. Rápido y sin sorpresas antes de coger el tren.</p>
+          <p class="tmeta">Todos los días · <a href="tel:+33468050192">+33 4 68 05 01 92</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">20–25 €</span>
+          <span class="tcap cap--ok">Grupo de 9 · sí</span>
+          <span class="tag">Comida</span>
+        </div>
+      </li>
+      <li class="trow">
+        <div class="trate">4,5<em>386 op.</em></div>
+        <div class="tinfo">
+          <h4>La Table de la Citadelle<small>Mont-Louis · 1.600 m</small></h4>
+          <p>Arriba, dentro de la plaza fuerte de Vauban y a dos pasos de la estación. Cocina de montaña cuidada y un menú infantil hecho con los platos de los mayores. Reservad al comprar los billetes: arriba hay poca oferta y el tren llega con todo el mundo a la vez.</p>
+          <p class="tmeta">Todos los días · <a href="tel:+33468306381">+33 4 68 30 63 81</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">30–38 €</span>
+          <span class="tcap cap--call">Grupo de 9 · avisar</span>
+          <span class="tag">Comida</span>
+        </div>
+      </li>
+      <li class="trow">
+        <div class="trate">4,5<em>701 op.</em></div>
+        <div class="tinfo">
+          <h4>La Forge d'Auguste<small>Villefranche-de-Conflent</small></h4>
+          <p>Hamburguesas enormes, crêpes y galettes, mitad catalán mitad francés, a precio contenido para lo turístico que es el sitio. Se llena en minutos al abrir, así que reservad o llegad a las 12:00 en punto.</p>
+          <p class="tmeta"><b>Cierra miércoles</b> · <a href="tel:+33468050865">+33 4 68 05 08 65</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">18–26 €</span>
+          <span class="tcap cap--call">Grupo de 9 · avisar</span>
+          <span class="tag">Informal</span>
+        </div>
+      </li>
+      </ul>
+    </div>
+
+    <div class="tables">
+      <div class="tables-head"><h3>Cena · día 4</h3><span>la última noche</span></div>
+      <ul class="tlist">
+      <li class="trow">
+        <div class="trate">4,8<em>100 op.</em></div>
+        <div class="tinfo">
+          <h4>La Picada<small>Tautavel · 15 km</small></h4>
+          <p>La mejor idea de la semana para nueve personas: cocina española de producto fresco y, <strong>encargando con antelación, una paella o una fideuà para toda la mesa</strong>. Ya lo han hecho para grupos de doce. Mejillones rellenos con alioli como entrante y una sala luminosa y tranquila.</p>
+          <p class="tflag"><b>Embarazo</b> el alioli de la casa es artesano, con huevo. Pedid los mejillones gratinados al horno o cambiad el entrante.</p><p class="tmeta"><b>Cierra lunes y martes</b> · encargar el arroz al reservar · <a href="tel:+33670917082">+33 6 70 91 70 82</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">25–35 €</span>
+          <span class="tcap cap--ok">Grupo de 9 · sí</span>
+          <span class="tag tag--cena">Cena</span>
+        </div>
+      </li>
+      <li class="trow">
+        <div class="trate">4,6<em>838 op.</em></div>
+        <div class="tinfo">
+          <h4>le square<small>Ille-sur-Têt · 30 km</small></h4>
+          <p>Bistró con brasa justo en la carretera de vuelta del tren. Sugerencias del día en pizarra, ambiente ruidoso y muy francés, repostería propia. Sala mediana: con nueve, avisad.</p>
+          <p class="tmeta">Cierra domingo y lunes · <a href="tel:+33468614840">+33 4 68 61 48 40</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">25–32 €</span>
+          <span class="tcap cap--call">Grupo de 9 · avisar</span>
+          <span class="tag tag--cena">Cena</span>
+        </div>
+      </li>
+      <li class="trow">
+        <div class="trate">4,7<em>35 op.</em></div>
+        <div class="tinfo">
+          <h4>Pizza Mac · para llevar<small>Estagel · 9 km</small></h4>
+          <p>Horno de leña, pizzas generosas y una pareja encantadora. Nueve pizzas se encargan por teléfono, se recogen a la vuelta y se cenan en casa sin cambiarse de ropa. La solución honesta para la última noche.</p>
+          <p class="tmeta"><b>Cierra miércoles</b> · solo cenas, 18:00–21:00 · <a href="tel:+33642235493">+33 6 42 23 54 93</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">12–16 €</span>
+          <span class="tcap cap--ok">Grupo de 9 · sí</span>
+          <span class="tag">En casa</span>
+        </div>
+      </li>
+      </ul>
+    </div>
+
+    <div class="note" style="margin-top:2.2rem">
+      <strong>Versión corta</strong>Si los horarios del tren no cuadran: Villefranche por la mañana, comida en Le Patio y de vuelta con parada en el <strong>priorato de Serrabona</strong> (5–6 €, llano, quince minutos y una tribuna de mármol rosa que no espera nadie).
+    </div>
+  </div>
+</section>
+
+<!-- ==================== A LA MESA ==================== -->
+<section class="band band--ink" id="mesa">
+  <div class="wrap">
+    <p class="eyebrow">A la mesa</p>
+    <h2 class="section-title">Comer catalán, con una lista en el bolsillo</h2>
+    <p class="section-intro">El Rosellón fue catalán hasta 1659 y la cocina no se enteró del cambio de
+      bandera: alioli, anchoa, caracoles a la brasa, vino dulce de garnacha. La única pega es que la
+      cocina francesa se apoya mucho en la leche cruda y la charcutería cruda, así que si en la mesa hay
+      que evitar los crudos y el alcohol conviene llevar la lista clara. Con ella se come exactamente
+      igual de bien.</p>
+
+    <div class="yesno">
+      <div class="yn yn--si"><h3>Sin problema</h3><ul><li>Pescado y marisco <strong>bien cocinados</strong>: plancha, horno, fritura.</li><li>Carne <strong>al punto o hecha</strong>, nunca roja ni cruda.</li><li>Quesos de <strong>leche pasterizada</strong>, o cualquier queso fundido y bien caliente.</li><li>Verdura y guisos cocinados: <em>cassoulet</em>, <em>boles de picolat</em>, escalivada, sopas.</li><li>Jamón cocido (<em>jambon blanc</em>), tortilla cuajada, arroces, pasta.</li><li>Fruta pelada o bien lavada, y todos los postres cocinados.</li></ul></div>
+      <div class="yn yn--no"><h3>Mejor no</h3><ul><li>Quesos de <strong>leche cruda</strong> y de corteza blanca: roquefort, camembert, brie, cabra fresco. En Francia están en todas las cartas.</li><li>Charcutería cruda y untables: <em>saucisson</em>, chorizo, <em>rillettes</em>, paté, foie gras.</li><li>Pescado crudo, marinado o ahumado en frío: tartar, ceviche, carpaccio, salmón ahumado.</li><li><strong>Ostras y marisco crudo</strong>, que en Leucate son la especialidad.</li><li>Alioli y mayonesa caseros, mousses y tiramisú: huevo crudo.</li><li>Crudités y ensaladas de origen dudoso, por el lavado. Y el alcohol, vinos dulces incluidos.</li></ul></div>
+    </div>
+
+    <div class="note" style="margin-top:1.8rem;max-width:74ch">
+      <strong>Las frases que hay que aprender</strong>
+      «<em>Est-ce au lait pasteurisé ?</em>» y «<em>bien cuit, s'il vous plaît</em>». En cualquier
+      restaurante de la comarca lo entienden a la primera y no les extraña. Para brindar, la comarca está
+      llena de <strong>zumo de uva</strong> y mosto de bodega, y en cualquier bar hay
+      <em>sirop à l'eau</em>, que es lo que pide media Francia cuando no bebe.
+    </div>
+
+    <div class="tables">
+      <div class="tables-head"><h3>Las mesas grandes</h3><span>para la noche que quieres que recuerden</span></div>
+      <ul class="tlist">
+      <li class="trow">
+        <div class="trate">4,7<em>405 op.</em></div>
+        <div class="tinfo">
+          <h4>Auberge du Cellier<small>Montner · 12 km de Cassagnes</small></h4>
+          <p>Restaurante gastronómico en un pueblo de doscientos habitantes, con vistas al campo y una cocina de nivel muy alto a precio sorprendentemente razonable. La bodega tiene un margen casi simbólico —un par de euros sobre el precio de la botella—, que para un grupo cambia bastante la cuenta.</p>
+          <p class="tmeta">Cierra lunes y martes · <a href="tel:+33468290978">+33 4 68 29 09 78</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">55–75 €</span>
+          <span class="tcap cap--call">Grupo de 9 · avisar</span>
+          <span class="tag tag--capricho">Reservar</span>
+        </div>
+      </li>
+      <li class="trow">
+        <div class="trate">4,6<em>401 op.</em></div>
+        <div class="tinfo">
+          <h4>Restaurant La Coopérative — Riberach<small>Bélesta · 12 km</small></h4>
+          <p>La antigua cooperativa vinícola del pueblo, un edificio de hormigón de los cuarenta convertido en hotel y bodega, colgado sobre viñas y lavanda. Menú degustación con los vinos de la casa y una sumiller que explica de verdad lo que sirve. Solo sirven dos horas al día: con nueve, llamad ya.</p>
+          <p class="tflag"><b>Embarazo</b> avisad al reservar de lo que hay que evitar. Un menú degustación se adapta sin ningún problema si lo saben con antelación, y el maridaje lo pueden servir en zumos.</p><p class="tmeta">Cierra lunes y martes · cena mié–sáb, comida sáb–dom · <a href="tel:+33468503010">+33 4 68 50 30 10</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">70–90 €</span>
+          <span class="tcap cap--call">Grupo de 9 · avisar</span>
+          <span class="tag tag--capricho">Capricho</span>
+        </div>
+      </li>
+      <li class="trow">
+        <div class="trate">4,8<em>2.597 op.</em></div>
+        <div class="tinfo">
+          <h4>La Table d'Aimé<small>Rivesaltes · 25 km</small></h4>
+          <p>Patio de una vieja casa de vinos y un menú que cambia cada semana, comentado plato a plato por el anfitrión. Casi todo el vino se sirve por copas. Muy solicitada: con nueve, semanas de antelación.</p>
+          <p class="tmeta">Cierra domingo y lunes · <a href="tel:+33468343577">+33 4 68 34 35 77</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">45–60 €</span>
+          <span class="tcap cap--call">Grupo de 9 · avisar</span>
+          <span class="tag tag--cena">Cena</span>
+        </div>
+      </li>
+      </ul>
+    </div>
+
+    <div class="tables">
+      <div class="tables-head"><h3>Para llevarse a casa</h3><span>la maleta de vuelta</span></div>
+      <ul class="tlist">
+      <li class="trow">
+        <div class="trate">4,7<em>2.304 op.</em></div>
+        <div class="tinfo">
+          <h4>Anchois Roque<small>Collioure</small></h4>
+          <p>La casa de anchoas del pueblo, con el obrador a la vista: se ve fileteando y se prueba antes de comprar. Cerradas aguantan meses en la despensa.</p>
+          <p class="tflag"><b>Embarazo</b> la anchoa en salazón es pescado no cocinado, así que entra en la lista de las que esperan. Compradlas igual.</p><p class="tmeta">Todos los días 8:15–19:30 · <a href="tel:+33468820499">+33 4 68 82 04 99</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">Tarro 8–15 €</span>
+          <span class="tcap cap--ok">Grupo de 9 · sí</span>
+          <span class="tag">Compra</span>
+        </div>
+      </li>
+      <li class="trow">
+        <div class="trate">4,8<em>99 op.</em></div>
+        <div class="tinfo">
+          <h4>Domaine Fontanel<small>Tautavel · 15 km</small></h4>
+          <p>Cata explicada con calma y sin compromiso, patio a la sombra y sitio para que se sienten nueve. Aquí es donde conseguís el zumo de uva de la comarca, que es una cosa bastante distinta del zumo de brik.</p>
+          <p class="tmeta">Casi todos los días · avisad si vais nueve · <a href="tel:+33611070122">+33 6 11 07 01 22</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">Cata 0–5 € · botella 8–20 €</span>
+          <span class="tcap cap--call">Grupo de 9 · avisar</span>
+          <span class="tag">Bodega</span>
+        </div>
+      </li>
+      <li class="trow">
+        <div class="trate">4,5<em>37 op.</em></div>
+        <div class="tinfo">
+          <h4>Terres Plurielles<small>Tautavel y Latour-de-France</small></h4>
+          <p>La cooperativa de la comarca: precios de productor y Rivesaltes criados en barrica de coñac, ron o whisky, que son una rareza. Para los regalos de vuelta.</p>
+          <p class="tmeta">Cerrado lunes y domingo en Latour-de-France · <a href="tel:+33468291326">+33 4 68 29 13 26</a></p>
+        </div>
+        <div class="tside">
+          <span class="price">Botella 6–15 €</span>
+          <span class="tcap cap--ok">Grupo de 9 · sí</span>
+          <span class="tag">Bodega</span>
+        </div>
+      </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== PRESUPUESTO ==================== -->
+<section class="band band--paper" id="precios">
+  <div class="wrap">
+    <p class="eyebrow">Cuánto cuesta</p>
+    <h2 class="section-title">Por persona, y para los nueve</h2>
+    <p class="section-intro">Todo en euros. «Comida» y «cena» son un plato principal más entrante o
+      postre, con agua o refresco y sin vino; si pedís botellas, sumad 8–15 € por cabeza. Los rangos van
+      de la opción más barata a la más caras de las que propone cada día. El coche está calculado con dos
+      vehículos, a unos 12 €/100 km más peaje y aparcamiento el día de Carcasona.</p>
+
+    <table class="budget">
+      <caption>Orientativo · temporada 2026</caption>
+      <thead>
+        <tr><th scope="col">Jornada</th><th scope="col">Entradas</th><th scope="col">Comida</th>
+          <th scope="col">Cena</th><th scope="col">Coche</th><th scope="col">Persona</th>
+          <th scope="col" class="grp">Los nueve</th></tr>
+      </thead>
+      <tbody>
+          <tr><td>Día 1 · Galamus y Maury</td><td class="num">5–11</td><td class="num">15–32</td>
+            <td class="num">20–40</td><td class="num">5</td><td class="num tot">45–88</td>
+            <td class="grp">405–792</td></tr>
+          <tr><td>Día 2 · Collioure</td><td class="num">4–14</td><td class="num">28–40</td>
+            <td class="num">35–45</td><td class="num">14</td><td class="num tot">81–113</td>
+            <td class="grp">729–1.017</td></tr>
+          <tr><td>Día 3 · Carcasona</td><td class="num">8–23</td><td class="num">20–30</td>
+            <td class="num">12–30</td><td class="num">22</td><td class="num tot">62–105</td>
+            <td class="grp">558–945</td></tr>
+          <tr><td>Día 4 · Tren Amarillo</td><td class="num">20–32</td><td class="num">18–38</td>
+            <td class="num">12–35</td><td class="num">13</td><td class="num tot">63–118</td>
+            <td class="grp">567–1.062</td></tr>
+      </tbody>
+      <tfoot>
+        <tr><td>Cuatro días</td><td class="num">37–80</td><td class="num">81–140</td>
+          <td class="num">79–150</td><td class="num">54</td><td class="num tot">251–424</td>
+          <td class="grp">2.259–3.816</td></tr>
+      </tfoot>
+    </table>
+
+    <div class="cards" style="margin-top:2.2rem">
+      <div class="card"><span class="kicker">Cómo bajarlo</span><h3>Unos 250 € por persona</h3>
+        <p>Eligiendo cada día la opción barata, cenando dos noches en casa —el asador de Cases-de-Pène o
+          nueve pizzas de leña salen a 12–20 € por cabeza— y cambiando Carcasona por Perpiñán. El Tren
+          Amarillo es lo único que no conviene recortar.</p></div>
+      <div class="card"><span class="kicker">Cómo subirlo</span><h3>Unos 550 € por persona</h3>
+        <p>Con una noche en Auberge du Cellier o en La Coopérative de Bélesta, La Balette en Collioure,
+          entradas completas y vino en la mesa. Sigue siendo un viaje barato para lo que se ve.</p></div>
+      <div class="card"><span class="kicker">No incluido</span><h3>Lo que falta en la tabla</h3>
+        <p>Alojamiento, desayunos, cafés y helados, compras y la caja de anchoas. Tampoco los precios de
+          las entradas, que suben cada temporada: comprobadlos antes de salir.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== NOTAS ==================== -->
+<section class="band" id="notas">
+  <div class="wrap">
+    <p class="eyebrow">Antes de salir de casa</p>
+    <h2 class="section-title">Ocho cosas que cambian la semana</h2>
+    <p class="section-intro">Nada de esto sale en las guías, y todo se nota al segundo día.</p>
+    <div class="cards">
+      <div class="card"><span class="kicker">01 · Calor</span><h3>La regla de las once</h3><p>Piedra y sol antes de las 11:00; a partir de las 15:00, sombra. Dos litros y medio de agua al día por persona y una garrafa congelada en cada coche. En las ruinas no hay una sombra.</p></div>
+      <div class="card"><span class="kicker">02 · Reservas</span><h3>La víspera, por teléfono</h3><p>Las cocinas cierran pronto —última comanda hacia las 13:45 y las 21:15— y casi todo descansa uno o dos días fijos, muchas veces lunes y martes. Con nueve personas, reservar no es opcional: llamad la víspera y confirmad por la mañana.</p></div>
+      <div class="card"><span class="kicker">03 · Baños</span><h3>Dónde hay</h3><p>Collioure, Villefranche, la Cité de Carcasona y las estaciones tienen aseos públicos; los pueblos del Fenouillèdes, casi ninguno. En Francia se entra a un café, se pide algo y se usa el suyo sin que nadie ponga mala cara.</p></div>
+      <div class="card"><span class="kicker">04 · Sanidad</span><h3>Antes de salir</h3><p>Tarjeta Sanitaria Europea de los nueve y seguro de viaje. Quien siga alguna indicación médica, que la lleve por escrito. Urgencias médicas: <strong>15</strong>; emergencias: <strong>112</strong>. El hospital de referencia es el <strong>Centre Hospitalier de Perpignan</strong>, a 32 km; el día de Carcasona, el de allí.</p></div>
+      <div class="card"><span class="kicker">05 · Terreno</span><h3>Calzado plano y ancho</h3><p>La Cité de Carcasona son cantos rodados irregulares y Collioure tiene empedrado suelto. Zapatilla plana de suela ancha y buen agarre; nada de sandalia fina ni de cuña.</p></div>
+      <div class="card"><span class="kicker">06 · Viento</span><h3>La tramontana</h3><p>Sopla del noroeste, seca y con rachas fuertes, y aparece con cielo azul. Hace incómoda la costa y desagradable cualquier mirador. Si el parte la anuncia fuerte, ese es el día de Perpiñán o del museo de Tautavel.</p></div>
+      <div class="card"><span class="kicker">07 · Coche</span><h3>Llenar en Estagel</h3><p>En el Fenouillèdes hay muy pocas gasolineras y cierran temprano: repostad los dos coches en Estagel o Saint-Paul-de-Fenouillet. En los cañones y carreteras de cresta no hay cobertura, así que descargad los mapas para uso sin conexión y llevad la ruta acordada.</p></div>
+      <div class="card"><span class="kicker">08 · Mercados</span><h3>Para desayunos y pícnics</h3><p>Los pueblos del valle del Agly tienen mercado semanal por la mañana; el día varía, preguntad en la oficina de turismo de Estagel. Para nueve personas es la manera más barata y más agradable de resolver desayunos, fruta y algún pícnic.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ALTERNATIVAS ==================== -->
+<section class="band band--ink" id="extras">
+  <div class="wrap">
+    <p class="eyebrow">Comodines</p>
+    <h2 class="section-title">Si un día no apetece</h2>
+    <p class="section-intro">Siete planes suaves dentro del radio, todos llanos o cortos, para cambiar una
+      jornada sobre la marcha. Ordenados por distancia desde Cassagnes.</p>
+    <ul class="extras">
+      <li class="extra"><span class="extra-km">15 km<em>6–10 €</em></span><div><h4>Museo de Tautavel</h4><p>Aquí se encontró el cráneo del Hombre de Tautavel, de unos 450.000 años. Llano, climatizado y bien montado: el plan perfecto para un día de calor imposible o de tramontana. Tienen tarifa de grupo.</p></div></li>
+      <li class="extra"><span class="extra-km">30 km<em>9–10 €</em></span><div><h4>Forteresse de Salses</h4><p>Fortaleza artillera española de finales del siglo XV, medio enterrada, con muros de doce metros. Se recorre casi todo a nivel, dentro se está fresco y no hay nadie.</p></div></li>
+      <li class="extra"><span class="extra-km">32 km<em>0–6 €</em></span><div><h4>Perpiñán</h4><p>El Castillet de ladrillo rojo, el mercado, las plazas con plátanos y el Campo Santo. Todo llano, con sombra y terrazas cada cincuenta metros. La mejor alternativa al día de Carcasona.</p></div></li>
+      <li class="extra"><span class="extra-km">40 km<em>5–6 €</em></span><div><h4>Priorato de Serrabona</h4><p>Iglesia románica en medio de la nada con una tribuna de mármol rosa que deja sin palabras. Quince minutos de visita, aparcamiento al lado y jardín de plantas mediterráneas.</p></div></li>
+      <li class="extra"><span class="extra-km">55 km<em>5–6 €</em></span><div><h4>Claustro de Elne</h4><p>El claustro románico de mármol más bello del Rosellón, con capiteles del siglo XII. Pequeño, llano y a la sombra; encaja de vuelta del día de Collioure sin alargarlo casi nada.</p></div></li>
+      <li class="extra"><span class="extra-km">58 km<em>13–15 €</em></span><div><h4>Grottes des Grandes Canalettes</h4><p>Junto a Villefranche: cueva de concreciones espectacular a 16 °C todo el año. Hay pasarelas y algún tramo de escalera con barandilla, así que se mira con calma; en un día de 36 °C es una bendición.</p></div></li>
+      <li class="extra"><span class="extra-km">0 km<em>Gratis</em></span><div><h4>El mercado y la piscina</h4><p>No es un relleno. Un día de mercado en Estagel o Saint-Paul, comida larga en la terraza de casa y tarde de agua acaba siendo, con nueve personas y casi siempre, el día que todo el mundo recuerda mejor.</p></div></li>
+    </ul>
+  </div>
+</section>
+
+
+<footer class="foot">
+  <div class="wrap foot-grid">
+    <div>
+      <p class="sig">Cuatro mañanas buenas valen más que ocho días de prisa.</p>
+      <p>Los horarios son una propuesta, no un examen, y las tres opciones de cada comida están para
+        elegir la víspera según el cuerpo y el tiempo. El día que alguien diga que no, ese día se queda en
+        casa y no pasa absolutamente nada.</p>
+    </div>
+    <div>
+      <p class="data">Cassagnes 66720 · Pyrénées-Orientales<br>
+        Grupo de 9 · precios por persona<br>
+        Orientativos · temporada 2026<br>
+        Urgencias médicas 15 · emergencias 112</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var t = document.querySelectorAll('.reveal');
+  if(reduce || !('IntersectionObserver' in window)){
+    t.forEach(function(el){ el.classList.add('is-in'); }); return;
+  }
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('is-in'); io.unobserve(e.target); } });
+  },{threshold:.2});
+  t.forEach(function(el){ io.observe(el); });
+})();
+</script>
+</body>
+</html>
