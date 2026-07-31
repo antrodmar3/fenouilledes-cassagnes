@@ -238,7 +238,7 @@ export default function TripApp({ initialDayId }: { initialDayId?: string }) {
   ) : section === "monuments" ? (
     <MonumentsScreen updateList={updateList} statusFor={statusFor} monumentDay={monumentDay} setMonumentDay={setMonumentDay} />
   ) : (
-    <PracticalScreen setState={setState} weather={weather} />
+    <PracticalScreen state={state} setState={setState} weather={weather} />
   );
 
   return (
@@ -314,6 +314,9 @@ function DayDetail({ day, forecast, state, setState, statusFor, onBack, sensors 
   const removed = day.stopIds.filter((id) => state.removedStopIds.includes(id)).map((id) => stopById[id]);
   const skipped = day.stopIds.filter((id) => state.skippedStopIds.includes(id) && !state.removedStopIds.includes(id)).map((id) => stopById[id]);
   const visited = day.stopIds.filter((id) => state.visitedStopIds.includes(id)).length;
+  const addedSuggestions = (state.daySuggestionIds[day.id] ?? [])
+    .map((id) => groupAdvice.find((item) => item.id === id))
+    .filter((item): item is (typeof groupAdvice)[number] => Boolean(item));
 
   const move = (id: string, direction: -1 | 1) => setState((current) => {
     const currentOrder = current.stopOrder[day.id] ?? day.stopIds;
@@ -367,6 +370,10 @@ function DayDetail({ day, forecast, state, setState, statusFor, onBack, sensors 
         <div><span className="departure-icon"><Clock3 /></span><div><p className="eyebrow">Organiza el día</p><h2>¿A qué hora salimos?</h2><p>Recalculamos las horas con 15 minutos de margen entre paradas.</p></div></div>
         <label>Hora de salida<input type="time" value={state.departureTimes[day.id] ?? "09:00"} onChange={(event) => setState((current) => ({ ...current, departureTimes: { ...current.departureTimes, [day.id]: event.target.value } }))} /></label>
       </section>
+      {addedSuggestions.length > 0 && <section className="day-suggestions" aria-labelledby={`suggestions-${day.id}`}>
+        <div className="day-suggestions-heading"><div><p className="eyebrow">Ideas para el grupo</p><h2 id={`suggestions-${day.id}`}>Sugerencias añadidas</h2></div><span>{addedSuggestions.length}</span></div>
+        <ul>{addedSuggestions.map((item) => <li key={item.id}><div><p className="eyebrow">{item.kicker}</p><h3>{item.title}</h3><p>{item.text}</p></div><button className="chip-button" onClick={() => setState((current) => ({ ...current, daySuggestionIds: { ...current.daySuggestionIds, [day.id]: (current.daySuggestionIds[day.id] ?? []).filter((id) => id !== item.id) } }))} aria-label={`Quitar ${item.title} del día ${day.number}`}><X size={15} /> Quitar</button></li>)}</ul>
+      </section>}
       <div className="itinerary-heading"><div><p className="eyebrow">Itinerario personalizado</p><h2>{activeStops.length} paradas · regreso aprox. {schedule.returnTime}</h2><span>Horario orientativo basado en la guía, con 15 minutos de margen</span></div><button className="secondary-button" onClick={resetRoute}><RotateCcw size={16} /> Restaurar ruta</button></div>
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
         <SortableContext items={activeIds} strategy={verticalListSortingStrategy}>
@@ -395,9 +402,9 @@ function DayDetail({ day, forecast, state, setState, statusFor, onBack, sensors 
 function MapScreen({ state, mapDays, setMapDays, routeVisible, setRouteVisible, openDay }: { state: UserState; mapDays: string[]; setMapDays: (days: string[]) => void; routeVisible: boolean; setRouteVisible: (value: boolean) => void; openDay: (dayId: string) => void }) {
   const visibleStops = stops.filter((stop) => mapDays.includes(stop.dayId) && !state.removedStopIds.includes(stop.id));
   return <div className="page"><div className="page-title"><p className="eyebrow">Explora la ruta</p><h1>Mapa del viaje</h1><p>Todas las paradas de la guía, agrupadas por día.</p></div>
-    <div className="map-toolbar"><div className="filter-scroll">{days.map((day) => <button key={day.id} className={mapDays.includes(day.id) ? "active" : ""} onClick={() => setMapDays(toggleId(mapDays, day.id))}><span>{day.number}</span>Día {day.number}</button>)}</div><button className={`route-toggle ${routeVisible ? "active" : ""}`} onClick={() => setRouteVisible(!routeVisible)}><Route size={17} /> Ruta {routeVisible ? "visible" : "oculta"}</button></div>
-    <div className="map-wrap"><Suspense fallback={<div className="map-loading"><MapIcon size={30} /><span>Preparando el mapa…</span></div>}><MapView stops={visibleStops} onOpenDay={openDay} /></Suspense>{!routeVisible ? null : <div className="route-notice"><Info size={15} /> La ruta OSRM se activará con las coordenadas definitivas.</div>}</div>
-    <div className="map-legend">{days.map((day) => <span key={day.id}><i className={`legend-dot tone-${day.tone}`} />Día {day.number}</span>)}</div>
+    <div className="map-toolbar"><div className="filter-scroll">{days.map((day) => <button key={day.id} className={`${mapDays.includes(day.id) ? "active" : ""} tone-${day.tone}`} onClick={() => setMapDays(toggleId(mapDays, day.id))}><span>{day.number}</span>Día {day.number}</button>)}</div><button className={`route-toggle ${routeVisible ? "active" : ""}`} onClick={() => setRouteVisible(!routeVisible)}><Route size={17} /> Ruta {routeVisible ? "visible" : "oculta"}</button></div>
+    <div className="map-wrap"><Suspense fallback={<div className="map-loading"><MapIcon size={30} /><span>Preparando el mapa…</span></div>}><MapView stops={visibleStops} routeVisible={routeVisible} onOpenDay={openDay} /></Suspense>{!routeVisible ? null : <div className="route-notice"><Info size={15} /> Ruta por carretera desde la casa · ida y vuelta</div>}</div>
+    <div className="map-legend"><span><i className="legend-home">⌂</i>Casa</span>{days.map((day) => <span key={day.id}><i className={`legend-dot tone-${day.tone}`} />Día {day.number}</span>)}</div>
   </div>;
 }
 
@@ -441,7 +448,8 @@ function MonumentsScreen({ updateList, statusFor, monumentDay, setMonumentDay }:
   </div>;
 }
 
-function PracticalScreen({ setState, weather }: { setState: React.Dispatch<React.SetStateAction<UserState>>; weather: WeatherState }) {
+function PracticalScreen({ state, setState, weather }: { state: UserState; setState: React.Dispatch<React.SetStateAction<UserState>>; weather: WeatherState }) {
+  const [suggestionDays, setSuggestionDays] = useState<Record<string, string>>(() => Object.fromEntries(groupAdvice.map((item) => [item.id, days[0].id])));
   const iconFor = (icon: string) => icon === "wind" ? <Wind /> : icon === "car" ? <Car /> : icon === "backpack" ? <Backpack /> : icon === "sun" ? <Sun /> : <WifiOff />;
   const reset = () => { if (window.confirm("Se borrarán del dispositivo las visitas, notas, tareas, favoritos y preferencias.")) { clearState(); setState(createDefaultState()); } };
   const weatherStatus = weather.source === "live" && weather.snapshot
@@ -456,7 +464,12 @@ function PracticalScreen({ setState, weather }: { setState: React.Dispatch<React
   return <div className="page"><div className="page-title"><p className="eyebrow">Conviene saber</p><h1>Información práctica</h1><p>La guía completa para moverse, comer y decidir sobre la marcha cuando sois nueve.</p></div>
     <section className="weather-board"><div><p className="eyebrow light">11–15 agosto 2026</p><h2>Previsión para la estancia</h2><span>{weatherStatus}</span></div><div className="weather-days">{weatherEntries.map((entry) => { const forecast = weather.snapshot?.forecasts[entry.id]; return <div key={entry.id} title={forecast ? `${forecast.location}: ${weatherDescription(forecast.weatherCode)}` : "Cargando previsión"}><strong>{entry.label}</strong>{forecast ? <><WeatherSymbol code={forecast.weatherCode} /><span>{forecast.max}°</span><small>Lluvia {forecast.rainProbability}%</small></> : <><Cloud /><span>—</span><small>cargando</small></>}</div>; })}</div></section>
     <div className="section-heading"><div><p className="eyebrow">En la mochila</p><h2>Antes de salir</h2></div></div><section className="practical-grid">{practicalInfo.map((item) => <article key={item.id}><span className="practical-icon">{iconFor(item.icon)}</span><div><p className="eyebrow">{item.category}{item.dayId ? ` · Día ${days.find((day) => day.id === item.dayId)?.number}` : ""}</p><h3>{item.title}</h3><p>{item.text}</p></div></article>)}</section>
-    <div className="section-heading"><div><h2>Sugerencias para grupos</h2></div></div><section className="practical-grid">{groupAdvice.map((item) => <article key={item.id}><span className="practical-icon"><Utensils /></span><div><p className="eyebrow">{item.kicker}</p><h3>{item.title}</h3><p>{item.text}</p></div></article>)}</section>
+    <div className="section-heading"><div><h2>Sugerencias para grupos</h2></div></div><section className="practical-grid group-suggestions">{groupAdvice.map((item) => {
+      const selectedDayId = suggestionDays[item.id] ?? days[0].id;
+      const selectedDay = days.find((day) => day.id === selectedDayId) ?? days[0];
+      const isAdded = (state.daySuggestionIds[selectedDayId] ?? []).includes(item.id);
+      return <article key={item.id}><span className="practical-icon"><Utensils /></span><div><p className="eyebrow">{item.kicker}</p><h3>{item.title}</h3><p>{item.text}</p><div className="suggestion-controls"><label htmlFor={`suggestion-day-${item.id}`}>Añadir al itinerario</label><div><select id={`suggestion-day-${item.id}`} value={selectedDayId} onChange={(event) => setSuggestionDays((current) => ({ ...current, [item.id]: event.target.value }))}>{days.map((day) => <option key={day.id} value={day.id}>Día {day.number} · {day.title}</option>)}</select><button className={`chip-button ${isAdded ? "is-active" : ""}`} disabled={isAdded} onClick={() => setState((current) => ({ ...current, daySuggestionIds: { ...current.daySuggestionIds, [selectedDayId]: [...new Set([...(current.daySuggestionIds[selectedDayId] ?? []), item.id])] } }))}>{isAdded ? <><Check size={15} /> Añadida al día {selectedDay.number}</> : <><Plus size={15} /> Añadir</>}</button></div></div></div></article>;
+    })}</section>
     <div className="section-heading"><div><p className="eyebrow">A la mesa</p><h2>Tips culinarios para el embarazo</h2></div></div><section className="food-safety"><p>{foodSafety.intro}</p><div><article><h3><Check size={19} /> Sin problema</h3><ul>{foodSafety.safe.map((item) => <li key={item}>{item}</li>)}</ul></article><article><h3><X size={19} /> Mejor no</h3><ul>{foodSafety.avoid.map((item) => <li key={item}>{item}</li>)}</ul></article></div><p className="food-phrases"><strong>Frases útiles:</strong> {foodSafety.phrases}</p></section>
     <div className="section-heading"><div><p className="eyebrow">Temporada 2026</p><h2>Presupuesto orientativo</h2></div></div><div className="budget-wrap"><table className="budget-table"><thead><tr><th>Jornada</th><th>Entradas</th><th>Comida</th><th>Cena</th><th>Coche</th><th>Persona</th><th>Los nueve</th></tr></thead><tbody>{budget.map((row) => <tr key={row.label}><td>{row.label}</td><td>{row.entries}</td><td>{row.lunch}</td><td>{row.dinner}</td><td>{row.car}</td><td><strong>{row.person}</strong></td><td><strong>{row.group}</strong></td></tr>)}</tbody></table></div><p className="budget-note">Euros. Comida y cena: principal más entrante o postre, con agua o refresco y sin vino. Coche calculado con dos vehículos. No incluye alojamiento, desayunos, cafés, helados ni compras.</p>
     <div className="section-heading"><div><p className="eyebrow">Plan B</p><h2>Alternativas</h2></div></div><section className="alternative-grid">{alternatives.map((place) => <article key={place.id}><span>{place.reason}</span><h3>{place.name}</h3><p>{place.description}</p><small>{place.distance}</small><a href={place.googleMapsUrl} target="_blank" rel="noreferrer">Abrir en Maps <ExternalLink size={15} /></a></article>)}</section>
