@@ -2,12 +2,12 @@ import type { AlternativePlace, BudgetRow, Day, GroupAdvice, PracticalItem, Stop
 export { restaurants } from "./restaurants";
 
 export const trip = {
-  id: "fenouilledes-paso-lento",
+  id: "fenouilledes-cassagnes",
   title: "Fenouillèdes",
-  subtitle: "A paso lento",
+  subtitle: "Desde Cassagnes",
   base: "Cassagnes 66720, Francia",
   coordinates: "42°46′ N · 2°37′ E · 280 m",
-  description: "Cuatro días desde Cassagnes, pensados para que nadie tenga que apretar el paso: nueve personas, un sitio grande al día y la tarde libre.",
+  description: "Cuatro días desde Cassagnes para nueve personas: un gran destino cada jornada y tiempo libre por la tarde.",
 };
 
 export const days: Day[] = [

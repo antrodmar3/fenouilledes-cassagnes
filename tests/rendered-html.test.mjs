@@ -19,7 +19,7 @@ test("renders the travel app and its five-section navigation", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   const html = await response.text();
   assert.match(html, /Fenouill(?:&egrave;|è)des/i);
-  assert.match(html, /Cuatro d(?:&iacute;|í)as, sin apretar el paso/i);
+  assert.match(html, /Cuatro d(?:&iacute;|í)as desde Cassagnes/i);
   for (const label of ["Inicio", "Mapa", "Restaurantes", "Monumentos", "Info"]) {
     assert.match(html, new RegExp(label, "i"));
   }
